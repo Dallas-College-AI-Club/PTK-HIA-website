@@ -65,12 +65,23 @@ A multilingual, mobile-first website that helps refugees, immigrants, and people
 - **Language selection**
   - Asked when the user opens the site
   - Always visible in the top bar so it can be changed anytime
+  - Supported languages: Spanish, Arabic, Burmese, Swahili
+  - Main buttons and placeholder text are translated if possible; an English interface is acceptable for the MVP
 - **Get Connected**
-  - Request contact with a counselor, admissions officer, or peer mentor
+  - A form users fill out to be connected with a success coach, counselor, admissions officer, or peer mentor
+  - Examples: graduating high school seniors, parents who need counseling, mothers who need childcare
 
 ### Knowledge Base
 
-- Built from documents provided by the PTK research team: ESL program details, admissions steps, financial aid and scholarship info, and counseling contacts
+- Built from a resource spreadsheet provided by PTK. Resources mostly come from Dallas College:
+  - Night ESL class schedules
+  - Admissions steps
+  - Tuition
+  - Dallas College childcare program
+  - Free public transportation for students
+  - Scholarships and financial aid for refugees
+  - Counseling services
+  - Possibly some state-funded resources (PTK is still gathering these)
 - For the MVP, the AI club team loads these documents manually
 
 ---
@@ -83,7 +94,7 @@ A multilingual, mobile-first website that helps refugees, immigrants, and people
 | **Chatbot** | Large chat window, suggested starter questions (e.g., "How do I sign up for night ESL classes?"), "Was this helpful?" button, "Connect me with a person" button |
 | **ESL & Classes** | Night and weekend programs, registration steps, locations |
 | **Financial Aid & Scholarships** | Plain-language aid explanation, free student pass, scholarship links |
-| **Get Connected** | Counselor/admissions request form, peer mentor info, PTK representative contact |
+| **Get Connected** | Request form (success coach, counselor, admissions), peer mentor info, PTK representative contact |
 
 ---
 
@@ -93,7 +104,9 @@ A multilingual, mobile-first website that helps refugees, immigrants, and people
 - Icons next to text
 - Mobile-first (many users will be on phones)
 - High contrast
-- Navy and gold chapter branding
+- Simple design with solid colors and common, easy-to-read fonts
+- Navy and gold chapter branding (blue and yellow)
+- Footer: "Powered by PTK and AI Club at Dallas College" with a link to PTK's Instagram
 
 ---
 
@@ -136,7 +149,13 @@ Out of scope from the start:
 
 ## Tech Stack
 
-_TBD_
+| Layer | Technology |
+|---|---|
+| **Framework** | Next.js 16, React 19, TypeScript |
+| **UI** | Tailwind CSS 4, shadcn/ui |
+| **AI** | OpenRouter, Vercel AI SDK |
+| **Database** | Neon (Postgres), Drizzle ORM |
+| **Hosting** | Vercel |
 
 ---
 
@@ -148,4 +167,26 @@ _TBD_
 
 ## Team
 
-_TBD_
+### AI Club
+
+| Member | Focus |
+|---|---|
+| **Neftali** | Backend / RAG |
+| **Deivi** | Database and backend; Spanish testing |
+| **Yared** | Database and backend support |
+| **Thanh** | Project documentation |
+| **Jason** | Anything and everything |
+| **Camrin** | TBD |
+| **Azmin** | TBD |
+
+
+Work is claimed through GitHub issues: create an issue and describe what you're working on.
+
+### PTK
+
+| Member | Role |
+|---|---|
+| **PTK President** | Main contact for decisions; forwards builds to officers for testing |
+| **PTK officers** | Provide resource documents; test design, conversation flow, and languages |
+
+**Advisor:** Prof. David Bracewell
