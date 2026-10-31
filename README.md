@@ -177,7 +177,7 @@ _TBD_
 | **Thanh** | Project documentation |
 | **Jason** | Anything and everything |
 | **Camrin** | TBD |
-| **Azmin** | TBD |
+| **Azmin** | Backend / Guardrails |
 
 
 Work is claimed through GitHub issues: create an issue and describe what you're working on.
