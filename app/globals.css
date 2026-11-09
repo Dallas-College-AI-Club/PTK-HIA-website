@@ -4,6 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* PTK x AI Club brand colors (Dallas College navy + gold).
+   Used as Tailwind classes, e.g. bg-brand-navy, text-brand-ink, border-brand-line. */
+@theme {
+  --color-brand-navy: #0b3b8c;
+  --color-brand-navy-dark: #082b66;
+  --color-brand-gold: #ffc629;
+  --color-brand-gold-soft: #fffdf3;
+  --color-brand-tint: #eaf1fb;
+  --color-brand-page: #f5f8fd;
+  --color-brand-ink: #0f1b33;
+  --color-brand-muted: #42506a;
+  --color-brand-line: #cbd6e6;
+  --color-brand-line-soft: #dce4f0;
+  --color-brand-placeholder: #9fb3d1;
+  --color-brand-on-navy-muted: #dce6f7;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
