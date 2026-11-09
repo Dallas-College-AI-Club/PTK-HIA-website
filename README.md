@@ -190,3 +190,15 @@ Work is claimed through GitHub issues: create an issue and describe what you're 
 | **PTK officers** | Provide resource documents; test design, conversation flow, and languages |
 
 **Advisor:** Prof. David Bracewell
+
+## Python Data Pipeline
+
+Next.js handles the website and API endpoints.
+The Python project in `apps/data/` will prepare PTK-approved resources
+and import them into Neon PostgreSQL.
+
+See [Python setup instructions](apps/data/README.md) for installation,
+environment configuration, verification, and folder descriptions.
+
+The initial Python setup requires no database connection or AI credentials.
+Database connections, table definitions, and imports are separate tasks.

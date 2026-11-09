@@ -39,3 +39,13 @@ next-env.d.ts
 .idea/
 .vscode/
 *.pem
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local environment settings; keep the shareable template
+.env.*
+!.env.example
