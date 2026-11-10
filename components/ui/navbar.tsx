@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { LanguageSelector } from "@/components/ui/language-selector"
 import { NavLinks } from "@/components/ui/nav-links"
 import { getMessages } from "@/lib/i18n"
 import { pageContainer } from "@/lib/layout"
@@ -51,13 +52,10 @@ function NavBar() {
             </span>
           </button>
 
-          {/* Placeholder: the language selector is built by another teammate.
-              Keep it within ~120px on phones and ~160px on desktop. */}
-          <div
-            data-slot="language-selector"
-            className="flex min-h-11 w-[120px] items-center justify-center rounded-full border-2 border-dashed border-brand-placeholder px-2 py-1 text-center text-sm leading-tight font-bold text-brand-muted md:w-40"
-          >
-            {t.layout.languagePlaceholder}
+          {/* Language selector (issue #12). Keep it within ~120px on phones
+              and ~160px on desktop. */}
+          <div data-slot="language-selector">
+            <LanguageSelector />
           </div>
         </div>
       </div>
