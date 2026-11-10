@@ -18,11 +18,10 @@ Next.js development and the hosting provider's environment settings for deployed
 environments. Keep real credentials out of Git, client responses, and variables
 prefixed with `NEXT_PUBLIC_`. Use placeholders in `.env.example`.
 
-The empty `app/api/health/.gitkeep` tracks the reserved health route folder in
-Git. Issue #4 replaces the placeholder with a route handler.
+The backend health endpoint lives in `app/api/health/route.ts`. Follow the
+[health check instructions](../../README.md#check-backend-health) to verify it.
 
 ## Verify the layout
 
-Run `git ls-files app/api/health lib/server` from the repository root. On the
-issue #5 branch, it should list `app/api/health/.gitkeep` and this guide. The
-placeholder has no executable content.
+Run `git ls-files app/api/health lib/server` from the repository root. It should
+list `app/api/health/route.ts` and this guide.

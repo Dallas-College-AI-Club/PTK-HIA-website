@@ -164,6 +164,23 @@ Out of scope from the start:
 For API route locations, reusable backend code, and credential handling, see the
 [backend structure guide](lib/server/README.md).
 
+### Check backend health
+
+Install dependencies with `npm ci`, then start the app with `npm run dev`. Use
+the port printed by Next.js to check the endpoint. For the default port, run:
+
+```bash
+curl -i http://localhost:3000/api/health
+```
+
+Expect HTTP `200`, a JSON content type, and `{"status":"ok"}`. You can also
+open the URL in a browser. The response is generated for each request and
+sent with `Cache-Control: no-store`.
+
+This check confirms that the Next.js backend can respond. It works without
+database credentials or an AI API key. Use `npm run lint` and `npm run build`
+to check the project before opening a pull request.
+
 ---
 
 ## Team
