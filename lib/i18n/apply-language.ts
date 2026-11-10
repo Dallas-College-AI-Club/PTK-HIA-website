@@ -1,4 +1,4 @@
-import { getLanguage, LANGUAGE_STORAGE_KEY, languages, type LanguageCode } from "./languages";
+import { getLanguage, LANGUAGE_STORAGE_KEY, languages, RTL_ENABLED, type LanguageCode } from "./languages";
 
 /**
  * Sets <html lang="…" dir="…">. Changing `dir` to "rtl" is what flips the
@@ -8,7 +8,7 @@ import { getLanguage, LANGUAGE_STORAGE_KEY, languages, type LanguageCode } from 
 export function applyLanguage(code: LanguageCode) {
    const language = getLanguage(code);
    document.documentElement.lang = language.code;
-   document.documentElement.dir = language.dir;
+   document.documentElement.dir = RTL_ENABLED ? language.dir : "ltr";
 }
 
 /**
@@ -18,7 +18,7 @@ export function applyLanguage(code: LanguageCode) {
  * It has to be plain text because it runs before React loads.
  */
 export const applySavedLanguageScript = `(function(){try{
-var rtl=${JSON.stringify(languages.filter((l) => l.dir === "rtl").map((l) => l.code))};
+var rtl=${JSON.stringify((RTL_ENABLED ? languages : []).filter((l) => l.dir === "rtl").map((l) => l.code))};
 var c=localStorage.getItem(${JSON.stringify(LANGUAGE_STORAGE_KEY)});
 if(!c)return;
 document.documentElement.lang=c;

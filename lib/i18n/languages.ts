@@ -4,9 +4,7 @@
  * `nativeName` is how each language writes its own name, so a visitor who
  * can't read English still finds theirs. `dir` is the reading direction:
  * "rtl" (right-to-left) flips the whole layout, which only Arabic needs.
- *
- * Used by: the language selector, the first-visit prompt, the Get Connected
- * form's "Preferred language" field, and (later) the chatbot.
+
  */
 export const languages = [
    { code: "en", nativeName: "English", dir: "ltr" },
@@ -15,6 +13,12 @@ export const languages = [
    { code: "my", nativeName: "မြန်မာ", dir: "ltr" },
    { code: "sw", nativeName: "Kiswahili", dir: "ltr" },
 ] as const;
+
+/**
+ * Right-to-left layout (Arabic) is on hold: every language stays left to right
+ * until the team agrees how translations will work. Set to true to turn it back on.
+ */
+export const RTL_ENABLED = false;
 
 export type LanguageCode = (typeof languages)[number]["code"];
 
