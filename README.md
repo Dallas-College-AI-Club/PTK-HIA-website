@@ -161,7 +161,8 @@ Out of scope from the start:
 
 ## Getting Started
 
-_TBD_
+For API route locations, reusable backend code, and credential handling, see the
+[backend structure guide](lib/server/README.md).
 
 ---
 
