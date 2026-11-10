@@ -1,4 +1,6 @@
+import { LanguageProvider } from "@/components/ui/language-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { applySavedLanguageScript } from "@/lib/i18n/apply-language";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist_Mono, Noto_Sans } from "next/font/google";
@@ -21,8 +23,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
    return (
+      // lang/dir start as English; the script below swaps them to the saved
+      // language before the page paints, so React must not "fix" them back.
       <html
          lang="en"
+         dir="ltr"
+         suppressHydrationWarning
          className={cn(
             "h-full",
             "antialiased",
@@ -31,8 +37,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             notoSans.variable,
          )}
       >
+         <head>
+            <script dangerouslySetInnerHTML={{ __html: applySavedLanguageScript }} />
+         </head>
          <body className="min-h-full flex flex-col">
-            <TooltipProvider>{children}</TooltipProvider>
+            <LanguageProvider>
+               <TooltipProvider>{children}</TooltipProvider>
+            </LanguageProvider>
          </body>
       </html>
    );
