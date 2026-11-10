@@ -65,6 +65,38 @@ export const en = {
          counseling: { label: "Counseling", question: "How do I make a counseling appointment?" },
       },
    },
+   chatbot: {
+      title: "Ask a Question",
+      subtitle: "Ask in your language",
+      botName: "PTK Chatbot",
+      greeting: "Hello! Ask me anything about Dallas College. You can write in your own language.",
+      tapAQuestion: "Or tap a question:",
+      starterQuestions: [
+         "How do I sign up for night ESL classes?",
+         "What scholarships can I apply for?",
+         "How do I get the free student bus pass?",
+         "What childcare help is there for students?",
+      ],
+      conversationLabel: "Conversation",
+      youSaid: "You said:",
+      thinking: "Looking for an answer…",
+      // TODO(backend): remove once answers come from the backend (RAG).
+      placeholderAnswer:
+         "[Placeholder answer. This will connect to the backend, which finds the answer in the resources PTK collected (RAG), and shows it in short, simple steps.]",
+      placeholderSource: "[resource name]",
+      source: "Source:",
+      helpful: "Was this helpful?",
+      yes: "Yes",
+      no: "No",
+      thanksForFeedback: "Thank you for telling us.",
+      talkToPerson: "Talk to a real person",
+      talkToPersonBody: "Someone at Dallas College will help you",
+      inputLabel: "Type your question",
+      askAnother: "Ask another question",
+      send: "Send question",
+      askButton: "Ask",
+      error: "Sorry, something went wrong. Please try again, or talk to a real person.",
+   },
 };
 
 export type Messages = typeof en;
