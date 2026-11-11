@@ -93,6 +93,7 @@ A multilingual, mobile-first website that helps refugees, immigrants, and people
 | **Home** | Language selector, short welcome, chatbot box ("Ask a question in your language"), 4 large buttons: Learn English (ESL), Start College, Pay for College, Talk to Someone |
 | **Chatbot** | Large chat window, suggested starter questions (e.g., "How do I sign up for night ESL classes?"), "Was this helpful?" button, "Connect me with a person" button |
 | **ESL & Classes** | Night and weekend programs, registration steps, locations |
+| **Start College** | Links to Dallas College Registration page (For now until PTK confirms page function / content |
 | **Financial Aid & Scholarships** | Plain-language aid explanation, free student pass, scholarship links |
 | **Get Connected** | Request form (success coach, counselor, admissions), peer mentor info, PTK representative contact |
 
