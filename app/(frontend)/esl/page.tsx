@@ -1,3 +1,9 @@
+import { pageContainer } from "@/lib/layout";
+
 export default function Esl() {
-   return <h1>ESL & Classes</h1>;
+   return (
+      <div className={pageContainer}>
+         <h1>ESL & Classes</h1>
+      </div>
+   );
 }
