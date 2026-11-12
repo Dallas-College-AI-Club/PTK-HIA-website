@@ -24,7 +24,7 @@ export default function StartCollege() {
          >
             {t.startCollege.registrationLink}
             <ExternalLink aria-hidden="true" className="size-5 shrink-0" />
-            <span className="sr-only">{t.startCollege.opensNewTab}</span>
+            <span className="sr-only">{t.layout.opensNewTab}</span>
          </a>
 
          <p className="mt-6 mb-8 max-w-xl text-brand-muted">
