@@ -29,6 +29,7 @@ export const en = {
       footerInstagram: "Instagram",
       footerPrivacy: "Privacy",
       comingSoon: "Coming soon",
+      opensNewTab: "(opens in a new tab)",
       footerNotOfficial: "Not an official Dallas College website.",
       mainNavLabel: "Main",
       quickActionsLabel: "Quick actions",
@@ -41,8 +42,35 @@ export const en = {
    startCollege: {
       intro: "You apply and register for classes on the Dallas College website.",
       registrationLink: "Go to Dallas College registration",
-      opensNewTab: "(opens in a new tab)",
       englishNote: "The Dallas College website is in English. Need help with the steps?",
+   },
+   financialAid: {
+      intro: "Ways to get help paying for school.",
+      sections: {
+         aid: {
+            title: "Financial aid",
+            body: "Money from the government to help pay for classes. Apply every year.",
+         },
+         busPass: {
+            title: "Free student bus pass",
+            body: "Ride DART buses and trains for free while you take classes.",
+         },
+         scholarships: {
+            title: "Scholarships",
+            body: "Money for school that you don't pay back.",
+         },
+      },
+      // A hint is only added where the label alone isn't clear.
+      links: {
+         aidOverview: { label: "How financial aid works" },
+         fafsa: { label: "Apply with the FAFSA", hint: "For U.S. citizens, permanent residents and refugees" },
+         tasfa: { label: "Apply with the TASFA", hint: "For Texas students who can't use the FAFSA" },
+         keepAid: { label: "Keep your financial aid" },
+         goPass: { label: "Get your DART GoPass" },
+         scholarships: { label: "Find scholarships", hint: "One application for many scholarships" },
+         dreamers: { label: "Help for Dreamers and DACA students" },
+      },
+      englishNote: "The Dallas College website is in English. Need help?",
    },
    getConnected: {
       title: "Talk to someone",
