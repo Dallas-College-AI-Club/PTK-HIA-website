@@ -38,6 +38,12 @@ export const en = {
       label: "Language",
       chooseTitle: "Choose your language",
    },
+   startCollege: {
+      intro: "You apply and register for classes on the Dallas College website.",
+      registrationLink: "Go to Dallas College registration",
+      opensNewTab: "(opens in a new tab)",
+      englishNote: "The Dallas College website is in English. Need help with the steps?",
+   },
    getConnected: {
       title: "Talk to someone",
       intro: "Leave your contact details and a real person at Dallas College will reach out.",
