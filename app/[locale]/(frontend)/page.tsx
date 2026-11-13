@@ -1,7 +1,8 @@
 import { ArrowRight, Baby, Bus, ChevronRight, Heart, ImageIcon, type LucideIcon } from "lucide-react";
-import Link from "next/link";
+import { getLocale } from "next-intl/server";
 
 import { AskBox } from "@/components/ui/ask-box";
+import { Link } from "@/i18n/navigation";
 import { getMessages, type Messages } from "@/lib/i18n";
 import { pageContainer } from "@/lib/layout";
 import { sitePages, type SitePageKey } from "@/lib/site-pages";
@@ -15,8 +16,8 @@ const moreHelp: { key: keyof Messages["home"]["moreHelpItems"]; icon: LucideIcon
    { key: "counseling", icon: Heart },
 ];
 
-export default function Home() {
-   const t = getMessages();
+export default async function Home() {
+   const t = getMessages(await getLocale());
 
    return (
       <>

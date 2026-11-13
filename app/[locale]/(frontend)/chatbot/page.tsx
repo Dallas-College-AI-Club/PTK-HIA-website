@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { BackArrow, ChatPanel } from "@/components/ui/chat-panel";
@@ -5,8 +6,8 @@ import { getMessages } from "@/lib/i18n";
 import { pageContainer } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 
-export default function Chatbot() {
-   const t = getMessages();
+export default async function Chatbot() {
+   const t = getMessages(await getLocale());
 
    return (
       <div className={cn(pageContainer, "max-w-[860px] pt-3 pb-6 md:pt-6 md:pb-12")}>

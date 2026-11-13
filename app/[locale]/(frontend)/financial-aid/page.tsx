@@ -1,6 +1,7 @@
 import { ArrowRight, BusFront, ExternalLink, GraduationCap, Landmark, type LucideIcon } from "lucide-react";
-import Link from "next/link";
+import { getLocale } from "next-intl/server";
 
+import { Link } from "@/i18n/navigation";
 import { getMessages, type Messages } from "@/lib/i18n";
 import { pageContainer } from "@/lib/layout";
 import { sitePages } from "@/lib/site-pages";
@@ -25,8 +26,8 @@ const SECTIONS: { key: SectionKey; icon: LucideIcon; links: LinkKey[] }[] = [
    { key: "scholarships", icon: GraduationCap, links: ["scholarships", "dreamers"] },
 ];
 
-export default function FinancialAid() {
-   const t = getMessages();
+export default async function FinancialAid() {
+   const t = getMessages(await getLocale());
 
    return (
       <div className={pageContainer}>

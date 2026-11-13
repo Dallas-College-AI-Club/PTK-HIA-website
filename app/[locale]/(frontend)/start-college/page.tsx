@@ -1,6 +1,7 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
-import Link from "next/link";
+import { getLocale } from "next-intl/server";
 
+import { Link } from "@/i18n/navigation";
 import { getMessages } from "@/lib/i18n";
 import { pageContainer } from "@/lib/layout";
 import { sitePages } from "@/lib/site-pages";
@@ -8,8 +9,8 @@ import { sitePages } from "@/lib/site-pages";
 // For now this page sends visitors to Dallas College's own registration page.
 const REGISTRATION_URL = "https://www.dallascollege.edu/admissions/registration/";
 
-export default function StartCollege() {
-   const t = getMessages();
+export default async function StartCollege() {
+   const t = getMessages(await getLocale());
 
    return (
       <div className={pageContainer}>

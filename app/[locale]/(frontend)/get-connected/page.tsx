@@ -1,4 +1,5 @@
 import { HandHeart, Mail } from "lucide-react";
+import { getLocale } from "next-intl/server";
 
 import { GetConnectedForm } from "@/components/ui/get-connected-form";
 import { getMessages } from "@/lib/i18n";
@@ -6,9 +7,10 @@ import { pageContainer } from "@/lib/layout";
 
 const PTK_EMAIL = "ptkalphaalphaxi1@gmail.com";
 
-export default function GetConnected() {
-   const t = getMessages().getConnected;
-   const { comingSoon } = getMessages().layout;
+export default async function GetConnected() {
+   const messages = getMessages(await getLocale());
+   const t = messages.getConnected;
+   const { comingSoon } = messages.layout;
 
    return (
       <div className={pageContainer}>
