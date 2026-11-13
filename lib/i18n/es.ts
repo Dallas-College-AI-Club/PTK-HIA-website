@@ -1,0 +1,192 @@
+import type { Messages } from "./en";
+
+/**
+ * Spanish text. MOCK DRAFT: machine-written to test the language setup.
+ * It has NOT been checked yet. Alex validates Spanish (AGENTS.md) before
+ * this goes live. Keep the same keys as en.ts: the type below makes the
+ * build fail if a line is missing or extra.
+ */
+export const es: Messages = {
+   brand: {
+      name: "PTK × AI Club",
+      college: "Dallas College",
+      logoPlaceholder: "Logo",
+   },
+   pages: {
+      home: "Inicio",
+      learnEnglish: "Aprender inglés",
+      startCollege: "Empezar la universidad",
+      payForCollege: "Pagar la universidad",
+      talkToSomeone: "Hablar con alguien",
+      askQuestion: "Hacer una pregunta",
+   },
+   layout: {
+      textSize: "Tamaño del texto",
+      backHome: "Inicio",
+      stillHaveQuestion: "¿Todavía tiene una pregunta?",
+      stillHaveQuestionBody: "Pregunte en su idioma. Las respuestas vienen de recursos reunidos por PTK.",
+      askInYourLanguage: "Pregunte en su idioma",
+      footerPoweredBy: "Con el apoyo de PTK y AI Club de Dallas College",
+      footerInstagram: "Instagram",
+      footerPrivacy: "Privacidad",
+      comingSoon: "Próximamente",
+      opensNewTab: "(se abre en una pestaña nueva)",
+      footerNotOfficial: "No es un sitio web oficial de Dallas College.",
+      mainNavLabel: "Principal",
+      quickActionsLabel: "Acciones rápidas",
+      footerNavLabel: "Pie de página",
+   },
+   language: {
+      label: "Idioma",
+      chooseTitle: "Elija su idioma",
+   },
+   startCollege: {
+      intro: "Usted solicita la admisión y se inscribe en clases en el sitio web de Dallas College.",
+      registrationLink: "Ir a la inscripción de Dallas College",
+      englishNote: "El sitio web de Dallas College está en inglés. ¿Necesita ayuda con los pasos?",
+   },
+   financialAid: {
+      intro: "Formas de obtener ayuda para pagar sus estudios.",
+      sections: {
+         aid: {
+            title: "Ayuda financiera",
+            body: "Dinero del gobierno para ayudarle a pagar las clases. Solicítela cada año.",
+         },
+         busPass: {
+            title: "Pase de autobús gratis para estudiantes",
+            body: "Viaje gratis en los autobuses y trenes de DART mientras toma clases.",
+         },
+         scholarships: {
+            title: "Becas",
+            body: "Dinero para sus estudios que no tiene que devolver.",
+         },
+      },
+      links: {
+         aidOverview: { label: "Cómo funciona la ayuda financiera" },
+         fafsa: {
+            label: "Solicite con la FAFSA",
+            hint: "Para ciudadanos de EE. UU., residentes permanentes y refugiados",
+         },
+         tasfa: { label: "Solicite con la TASFA", hint: "Para estudiantes de Texas que no pueden usar la FAFSA" },
+         keepAid: { label: "Mantenga su ayuda financiera" },
+         goPass: { label: "Obtenga su DART GoPass" },
+         scholarships: { label: "Buscar becas", hint: "Una sola solicitud para muchas becas" },
+         dreamers: { label: "Ayuda para estudiantes Dreamers y DACA" },
+      },
+      englishNote: "El sitio web de Dallas College está en inglés. ¿Necesita ayuda?",
+   },
+   getConnected: {
+      title: "Hablar con alguien",
+      intro: "Deje sus datos de contacto y una persona de Dallas College se comunicará con usted.",
+      privacyNote: "Nunca le preguntaremos sobre su estatus migratorio.",
+      fields: {
+         fullName: "Nombre completo",
+         email: "Correo electrónico",
+         phone: "Teléfono",
+         contactHint: "Denos un correo electrónico o un número de teléfono (o ambos).",
+         preferredLanguage: "Idioma preferido",
+         situation: "¿Qué lo describe mejor?",
+         helpWith: "¿Con qué necesita ayuda?",
+         notes: "¿Algo más que debamos saber? (opcional)",
+         choose: "Elija una opción",
+      },
+      situations: {
+         highSchoolSenior: "Estudiante de último año de preparatoria",
+         currentStudent: "Estudiante actual de Dallas College",
+         parent: "Padre o madre",
+         refugee: "Refugiado / recién llegado a EE. UU.",
+         eslLearner: "Estudiante de inglés (ESL)",
+         other: "Otro",
+      },
+      helpTopics: {
+         admissions: "Admisiones",
+         esl: "Clases de inglés (ESL)",
+         financialAid: "Ayuda financiera / matrícula",
+         childcare: "Cuidado de niños",
+         transportation: "Transporte",
+         counseling: "Consejería",
+         other: "Otro",
+      },
+      errors: {
+         fullNameRequired: "Escriba su nombre, por favor.",
+         contactRequired: "Denos un correo electrónico o un número de teléfono, por favor.",
+         emailInvalid: "Este correo no parece completo. Revise que tenga una @ y un punto.",
+         choose: "Elija una opción, por favor.",
+         generic: "Algo salió mal de nuestro lado. Inténtelo de nuevo.",
+      },
+      submit: "Enviar mi solicitud",
+      sending: "Enviando…",
+      thankYouTitle: "¡Gracias!",
+      thankYouBody: "Alguien de Dallas College se comunicará con usted pronto.",
+      ptkContact: {
+         title: "Contactar a PTK",
+         body: "¿Tiene una pregunta para los estudiantes de PTK que hicieron este sitio? Envíenos un correo.",
+         emailButton: "Escribir a PTK",
+      },
+      peerMentor: {
+         title: "Mentores estudiantiles",
+         body: "Hable con un estudiante que ha pasado por lo mismo que usted.",
+      },
+   },
+   home: {
+      welcome: "Bienvenido",
+      howCanWeHelp: "¿Cómo podemos ayudarle?",
+      askLabel: "Haga una pregunta en su idioma",
+      askPlaceholder: "Escriba su pregunta",
+      askButton: "Preguntar",
+      popular: "Populares:",
+      popularQuestions: [
+         { label: "Clases de inglés de noche", question: "¿Cómo me inscribo en las clases de inglés de noche?" },
+         { label: "Becas", question: "¿Qué becas puedo solicitar?" },
+         { label: "Pase de autobús gratis", question: "¿Cómo obtengo el pase de autobús gratis para estudiantes?" },
+      ],
+      aiNotice:
+         "Las respuestas vienen de recursos reunidos por PTK. Confirme siempre los detalles importantes con Dallas College.",
+      illustrationAlt: "Ilustración de ejemplo: familias diversas caminando al campus",
+      illustrationPlaceholder: "Ilustración de ejemplo",
+      whatDoYouNeed: "¿Qué necesita?",
+      cards: {
+         learnEnglish: { title: "Aprender inglés (ESL)", description: "Clases de inglés de noche y los fines de semana" },
+         startCollege: { title: "Empezar la universidad", description: "Pasos desde la solicitud hasta su primera clase" },
+         payForCollege: { title: "Pagar la universidad", description: "Ayuda financiera, becas y planes de pago" },
+         talkToSomeone: { title: "Hablar con alguien", description: "Una persona real le ayudará" },
+      },
+      moreHelp: "Más ayuda",
+      moreHelpItems: {
+         childcare: { label: "Cuidado de niños", question: "¿Qué ayuda hay para el cuidado de niños de los estudiantes?" },
+         busPass: { label: "Pase de autobús", question: "¿Cómo obtengo el pase de autobús gratis para estudiantes?" },
+         counseling: { label: "Consejería", question: "¿Cómo hago una cita de consejería?" },
+      },
+   },
+   chatbot: {
+      title: "Hacer una pregunta",
+      subtitle: "Pregunte en su idioma",
+      botName: "Chatbot de PTK",
+      greeting: "¡Hola! Pregúnteme lo que quiera sobre Dallas College. Puede escribir en su propio idioma.",
+      tapAQuestion: "O toque una pregunta:",
+      starterQuestions: [
+         "¿Cómo me inscribo en las clases de inglés de noche?",
+         "¿Qué becas puedo solicitar?",
+         "¿Cómo obtengo el pase de autobús gratis para estudiantes?",
+         "¿Qué ayuda hay para el cuidado de niños de los estudiantes?",
+      ],
+      conversationLabel: "Conversación",
+      youSaid: "Usted dijo:",
+      thinking: "Buscando una respuesta…",
+      placeholderAnswer:
+         "[Respuesta de ejemplo. Esto se conectará al backend, que busca la respuesta en los recursos reunidos por PTK (RAG) y la muestra en pasos cortos y sencillos.]",
+      placeholderSource: "[nombre del recurso]",
+      source: "Fuente:",
+      helpful: "¿Le fue útil?",
+      yes: "Sí",
+      no: "No",
+      thanksForFeedback: "Gracias por decirnos.",
+      talkToPerson: "Hablar con una persona real",
+      talkToPersonBody: "Alguien de Dallas College le ayudará",
+      inputLabel: "Escriba su pregunta",
+      askAnother: "Hacer otra pregunta",
+      send: "Enviar pregunta",
+      askButton: "Preguntar",
+      error: "Lo sentimos, algo salió mal. Inténtelo de nuevo o hable con una persona real.",
+   },
+};

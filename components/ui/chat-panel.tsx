@@ -1,9 +1,10 @@
 "use client"
 
 import { ArrowLeft, ArrowRight, ArrowUp, ChevronRight, FileText, MessageCircle, ThumbsDown, ThumbsUp, Users } from "lucide-react"
-import Link from "next/link"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useLocale } from "next-intl"
+import { useSearchParams } from "next/navigation"
 import { useEffect, useId, useRef, useState } from "react"
+import { Link, usePathname, useRouter } from "@/i18n/navigation"
 
 import { askChatbot } from "@/lib/chatbot"
 import { getMessages } from "@/lib/i18n"
@@ -29,7 +30,9 @@ type Feedback = "yes" | "no"
  *    "Was this helpful?" question and a link to talk to a real person.
  */
 function ChatPanel() {
-  const t = getMessages().chatbot
+  const locale = useLocale()
+  const pageText = getMessages(locale)
+  const t = pageText.chatbot
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -52,7 +55,7 @@ function ChatPanel() {
     setQuestion("")
     setThinking(true)
     try {
-      const answer = await askChatbot(q)
+      const answer = await askChatbot(q, locale)
       setMessages((list) => [...list, { id: nextId.current++, role: "bot", ...answer }])
     } catch {
       setMessages((list) => [...list, { id: nextId.current++, role: "bot", text: t.error, failed: true }])
@@ -200,7 +203,7 @@ function ChatPanel() {
             <ArrowRight aria-hidden="true" className="hidden size-5 md:block" strokeWidth={2.5} />
           </button>
         </div>
-        <p className="text-[13px] leading-snug text-brand-muted md:text-[15px]">{getMessages().home.aiNotice}</p>
+        <p className="text-[13px] leading-snug text-brand-muted md:text-[15px]">{pageText.home.aiNotice}</p>
       </form>
     </div>
   )
@@ -240,7 +243,7 @@ function SourceLink({ label, href }: { label: string; href?: string }) {
 }
 
 function HelpfulQuestion({ value, onChoose }: { value?: Feedback; onChoose: (choice: Feedback) => void }) {
-  const t = getMessages().chatbot
+  const t = getMessages(useLocale()).chatbot
 
   // TODO(backend): save the feedback so the team can see which answers need work.
   if (value) {

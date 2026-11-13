@@ -3,7 +3,7 @@
  *
  * Every word users see lives here (not inside components), so adding a
  * language means adding one more file with the same keys. Components read
- * text through getMessages() in ./index.ts, never by importing this file.
+ * text through getMessages(locale) in ./index.ts, never by importing this file.
  */
 export const en = {
    brand: {

@@ -1,4 +1,5 @@
 import { Shield } from "lucide-react"
+import { getLocale } from "next-intl/server"
 import type { ReactNode } from "react"
 
 import { getMessages } from "@/lib/i18n"
@@ -11,8 +12,8 @@ const PTK_INSTAGRAM_URL: string | null = null
 const PRIVACY_URL: string | null = null
 
 /** Footer, repeated on every page. */
-function Footer() {
-  const t = getMessages()
+async function Footer() {
+  const t = getMessages(await getLocale())
 
   return (
     <footer data-slot="footer" className="bg-brand-navy text-white">

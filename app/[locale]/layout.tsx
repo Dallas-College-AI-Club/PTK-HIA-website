@@ -1,10 +1,14 @@
 import { LanguageProvider } from "@/components/ui/language-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { routing } from "@/i18n/routing";
 import { applySavedLanguageScript } from "@/lib/i18n/apply-language";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { Geist_Mono, Noto_Sans } from "next/font/google";
-import "./globals.css";
+import { notFound } from "next/navigation";
+import { locale as urlLocale } from "next/root-params";
+import "../globals.css";
 
 // Noto Sans has matching fonts for Arabic and Burmese (Noto Sans Arabic /
 // Noto Sans Myanmar), which can be added when those languages are turned on.
@@ -21,12 +25,22 @@ export const metadata: Metadata = {
       "Find ESL classes, start college, pay for college, and connect with a real person at Dallas College, in your language.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+// Build every language's pages ahead of time (needed with Cache Components).
+export function generateStaticParams() {
+   return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({ children }: LayoutProps<"/[locale]">) {
+   // The language comes from the URL: /es/... is Spanish, everything else English.
+   const locale = await urlLocale();
+   if (!hasLocale(routing.locales, locale)) notFound();
+
    return (
-      // lang/dir start as English; the script below swaps them to the saved
-      // language before the page paints, so React must not "fix" them back.
+      // lang comes from the URL. TODO(#12, Angie): the script below still swaps
+      // lang/dir to the language saved in the browser; switch the selector to
+      // change the URL instead, then remove the script.
       <html
-         lang="en"
+         lang={locale}
          dir="ltr"
          suppressHydrationWarning
          className={cn(
@@ -41,9 +55,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <script dangerouslySetInnerHTML={{ __html: applySavedLanguageScript }} />
          </head>
          <body className="min-h-full flex flex-col">
-            <LanguageProvider>
-               <TooltipProvider>{children}</TooltipProvider>
-            </LanguageProvider>
+            {/* Lets client components read the language with useLocale().
+                Our text comes from lib/i18n, so next-intl gets no messages. */}
+            <NextIntlClientProvider locale={locale} messages={null}>
+               <LanguageProvider>
+                  <TooltipProvider>{children}</TooltipProvider>
+               </LanguageProvider>
+            </NextIntlClientProvider>
          </body>
       </html>
    );

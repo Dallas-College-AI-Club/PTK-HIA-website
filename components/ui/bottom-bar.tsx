@@ -1,7 +1,7 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
+import { Link, usePathname } from "@/i18n/navigation"
 
 import { getMessages } from "@/lib/i18n"
 import { bottomBarPages, isActivePage, sitePages } from "@/lib/site-pages"
@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils"
  * longer languages, iPhone home-indicator area).
  */
 function BottomBar() {
-  const t = getMessages()
+  const t = getMessages(useLocale())
   const pathname = usePathname()
 
   return (

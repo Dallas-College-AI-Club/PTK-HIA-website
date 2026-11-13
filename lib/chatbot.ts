@@ -29,6 +29,6 @@ export async function askChatbot(question: string, language = "en"): Promise<Cha
 
    await new Promise((resolve) => setTimeout(resolve, 700));
 
-   const t = getMessages().chatbot;
+   const t = getMessages(language).chatbot;
    return { text: t.placeholderAnswer, sourceLabel: t.placeholderSource };
 }

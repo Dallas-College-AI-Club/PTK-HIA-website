@@ -12,7 +12,7 @@ import { StillHaveQuestion } from "@/components/ui/still-have-question";
  * Pages control their own width so Home can use full-width backgrounds:
  * wrap normal page content in `pageContainer` from lib/layout.ts.
  */
-export default function FrontendLayout({ children }: LayoutProps<"/">) {
+export default function FrontendLayout({ children }: LayoutProps<"/[locale]">) {
    return (
       <>
          <NavBar />
