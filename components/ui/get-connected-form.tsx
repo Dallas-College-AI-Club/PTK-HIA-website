@@ -5,7 +5,7 @@ import { useActionState } from "react"
 import {
   submitContactRequest,
   type ContactFormState,
-} from "@/app/(frontend)/get-connected/actions"
+} from "@/app/[locale]/(frontend)/get-connected/actions"
 import { Field, FieldError, FieldGroup, FieldLabel, FieldDescription } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/ui/language-provider"
