@@ -1,5 +1,6 @@
 "use client"
 
+import { useLocale } from "next-intl"
 import { useActionState } from "react"
 
 import {
@@ -30,7 +31,7 @@ const initialState: ContactFormState = { status: "idle" }
  * 4. Design the thank-you state (mockup "Request sent" page).
  */
 function GetConnectedForm() {
-  const t = getMessages().getConnected
+  const t = getMessages(useLocale()).getConnected
   const { current } = useLanguage()
   const [state, formAction, pending] = useActionState(submitContactRequest, initialState)
 

@@ -1,7 +1,7 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
+import { Link, usePathname } from "@/i18n/navigation"
 
 import { getMessages } from "@/lib/i18n"
 import { pageContainer } from "@/lib/layout"
@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
  * Links wrap onto another line if a language is very long.
  */
 function NavLinks() {
-  const t = getMessages()
+  const t = getMessages(useLocale())
   const pathname = usePathname()
 
   return (

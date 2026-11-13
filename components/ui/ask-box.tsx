@@ -1,11 +1,12 @@
 "use client"
 
 import { ArrowRight, Info, MessageCircle } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter } from "@/i18n/navigation"
 import { useId, useRef, useState } from "react"
 
 import { getMessages } from "@/lib/i18n"
 import { sitePages } from "@/lib/site-pages"
+import { useLocale } from "next-intl"
 
 /**
  * Home page chat box. Sends the question to the chatbot page as ?q=...
@@ -16,7 +17,7 @@ import { sitePages } from "@/lib/site-pages"
  * The box grows with the text, so long languages are never cut off.
  */
 function AskBox() {
-  const t = getMessages()
+  const t = getMessages(useLocale())
   const router = useRouter()
   const inputId = useId()
   const inputRef = useRef<HTMLTextAreaElement>(null)

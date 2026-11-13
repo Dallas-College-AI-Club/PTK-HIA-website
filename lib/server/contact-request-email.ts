@@ -54,7 +54,7 @@ export async function emailContactRequest(requestId: string, request: ContactReq
       );
    }
 
-   const t = getMessages().getConnected;
+   const t = getMessages("en").getConnected;
    const helpWith = t.helpTopics[request.helpWith];
    // Keep the visitor's name on one line, so it can't add fake lines.
    const name = request.fullName.replace(/\s+/g, " ");

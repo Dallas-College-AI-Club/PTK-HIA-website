@@ -1,8 +1,8 @@
 "use client"
 
 import { ArrowRight, MessageCircle } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
+import { Link, usePathname } from "@/i18n/navigation"
 
 import { getMessages } from "@/lib/i18n"
 import { pageContainer } from "@/lib/layout"
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
  * and Ask a Question (the chatbot page itself).
  */
 function StillHaveQuestion() {
-  const t = getMessages()
+  const t = getMessages(useLocale())
   const pathname = usePathname()
   const chatbotHref = sitePages.askQuestion.href
 

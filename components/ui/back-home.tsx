@@ -1,8 +1,9 @@
 "use client"
 
 import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
+
+import { Link, usePathname } from "@/i18n/navigation"
 
 import { getMessages } from "@/lib/i18n"
 import { pageContainer } from "@/lib/layout"
@@ -11,7 +12,7 @@ import { cn } from "@/lib/utils"
 
 /** "← Home" button at the top of every page except Home. */
 function BackHome() {
-  const t = getMessages()
+  const t = getMessages(useLocale())
   const pathname = usePathname()
 
   if (pathname === "/") return null

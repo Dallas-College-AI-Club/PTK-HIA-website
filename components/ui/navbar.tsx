@@ -1,7 +1,8 @@
-import Link from "next/link"
+import { getLocale } from "next-intl/server"
 
 import { LanguageSelector } from "@/components/ui/language-selector"
 import { NavLinks } from "@/components/ui/nav-links"
+import { Link } from "@/i18n/navigation"
 import { getMessages } from "@/lib/i18n"
 import { pageContainer } from "@/lib/layout"
 import { cn } from "@/lib/utils"
@@ -14,8 +15,8 @@ import { cn } from "@/lib/utils"
  * translations wrap onto another line instead of breaking the bar.
  * Phones get the bottom bar instead of page links (see bottom-bar.tsx).
  */
-function NavBar() {
-  const t = getMessages()
+async function NavBar() {
+  const t = getMessages(await getLocale())
 
   return (
     <header

@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronDownIcon, Globe } from "lucide-react"
+import { useLocale } from "next-intl"
 
 import {
   DropdownMenu,
@@ -23,7 +24,7 @@ import { getLanguage, isLanguageCode, languages } from "@/lib/i18n/languages"
  * 3. Check the menu opens on the left side when the page is Arabic (RTL).
  */
 function LanguageSelector() {
-  const t = getMessages()
+  const t = getMessages(useLocale())
   const { current, setLanguage } = useLanguage()
 
   return (
