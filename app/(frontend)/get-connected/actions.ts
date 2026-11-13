@@ -1,6 +1,7 @@
 "use server";
 
 import { contactRequestSchema, type ContactRequestErrorKey } from "@/lib/contact-request";
+import { createRequestId, emailContactRequest } from "@/lib/server/contact-request-email";
 
 export type ContactFormState = {
    status: "idle" | "error" | "sent";
@@ -12,8 +13,9 @@ export type ContactFormState = {
 
 /**
  * Runs on the server when the Get Connected form is sent.
- * Flow: browser form -> this function -> (TODO) Neon database -> back to the
- * form, which shows errors or the thank-you message.
+ * Flow: browser form -> this function -> email to PTK and the Success
+ * Coaches (and, TODO, the Neon database) -> back to the form, which shows
+ * errors or the thank-you message.
  */
 export async function submitContactRequest(
    _previous: ContactFormState,
@@ -35,12 +37,24 @@ export async function submitContactRequest(
       return { status: "error", fieldErrors, values };
    }
 
+   // Shown in the email so PTK and the Success Coaches can refer to it.
+   const requestId = createRequestId();
+
    // TODO(Angie, with backend): save result.data to Neon.
    // 1. Add a contact_requests table in lib/db/schema.ts (fields match
-   //    lib/contact-request.ts, plus id and created_at).
+   //    lib/contact-request.ts, plus created_at; use requestId as the id).
    // 2. await db.insert(contactRequestsTable).values(result.data)
    // 3. On failure return { status: "error", fieldErrors: { form: "generic" }, values }.
    // Ask in the team chat first: drizzle.config.ts still points at src/db.
+
+   try {
+      await emailContactRequest(requestId, result.data);
+   } catch (error) {
+      // Nothing is saved yet, so show an error and let the visitor try again
+      // instead of a thank-you for a request nobody received.
+      console.error(`Get Connected email failed (${requestId}):`, error);
+      return { status: "error", fieldErrors: { form: "generic" }, values };
+   }
 
    return { status: "sent" };
 }

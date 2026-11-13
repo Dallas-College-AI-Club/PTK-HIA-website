@@ -89,6 +89,7 @@ export const en = {
       },
       situations: {
          highSchoolSenior: "Graduating high school senior",
+         currentStudent: "Current Dallas College student",
          parent: "Parent",
          refugee: "Refugee / new to the U.S.",
          eslLearner: "ESL learner",
@@ -114,6 +115,15 @@ export const en = {
       sending: "Sending…",
       thankYouTitle: "Thank you!",
       thankYouBody: "Someone from Dallas College will contact you soon.",
+      ptkContact: {
+         title: "Contact PTK",
+         body: "Have a question for the PTK students who made this site? Send us an email.",
+         emailButton: "Email PTK",
+      },
+      peerMentor: {
+         title: "Peer mentors",
+         body: "Talk with a student who has been where you are.",
+      },
    },
    home: {
       welcome: "Welcome",

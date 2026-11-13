@@ -14,7 +14,14 @@ import { languages } from "@/lib/i18n/languages";
  * sensitive information.
  */
 
-export const situations = ["highSchoolSenior", "parent", "refugee", "eslLearner", "other"] as const;
+export const situations = [
+   "highSchoolSenior",
+   "currentStudent",
+   "parent",
+   "refugee",
+   "eslLearner",
+   "other",
+] as const;
 
 export const helpTopics = [
    "admissions",
