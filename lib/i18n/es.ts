@@ -128,6 +128,32 @@ export const es: Messages = {
          body: "Hable con un estudiante que ha pasado por lo mismo que usted.",
       },
    },
+   // MOCK DRAFT, same as the rest of this file: Alex still needs to check it.
+   esl: {
+      title: "Aprender inglés",
+      description: "Programas de noche y fin de semana, pasos para inscribirse y ubicaciones.",
+      intro: "Clases de noche y de fin de semana, cómo inscribirse y adónde ir.",
+      sections: {
+         nightsWeekends: {
+            title: "Programas de noche y fin de semana",
+            body: "Clases de noche y de sábado para adultos que trabajan.",
+         },
+         registration: {
+            title: "Pasos para inscribirse",
+            body: "Los pasos para inscribirse en clases y pagarlas.",
+         },
+         locations: {
+            title: "Ubicaciones",
+            body: "Encuentre campus y centros cerca de usted.",
+         },
+      },
+      links: {
+         nightsWeekends: { label: "Ver los programas de noche y fin de semana" },
+         registration: { label: "Ver los pasos para inscribirse" },
+         locations: { label: "Ver todas las ubicaciones" },
+      },
+      englishNote: "El sitio web de Dallas College está en inglés. ¿Necesita ayuda?",
+   },
    home: {
       welcome: "Bienvenido",
       howCanWeHelp: "¿Cómo podemos ayudarle?",

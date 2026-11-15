@@ -125,135 +125,34 @@ export const en = {
          body: "Talk with a student who has been where you are.",
       },
    },
+   // ESL & Classes page: three sections, each with a link to a Dallas College page
+   // (the README lists them as night and weekend programs, registration steps,
+   // locations). Same shape as financialAid above. Web addresses are not
+   // translated, so they live in app/[locale]/(frontend)/esl/page.tsx.
    esl: {
       title: "Learn English",
-      description: "ESL helps you learn to read, write, listen and speak English. It does not give college credit.",
-      opensInNewTab: "opens in a new tab",
-      difference: {
-         heading: "ESOL and ESL: What’s the Difference?",
-         esol: {
-            title: "ESOL",
-            body: "ESOL is a college credit program. It helps you build the English skills you need for college classes. If you plan to transfer to a four-year school, it also helps you prepare for exams like the TOEFL.",
+      description: "Night and weekend programs, registration steps and locations.",
+      intro: "Night and weekend classes, how to sign up, and where to go.",
+      sections: {
+         nightsWeekends: {
+            title: "Night and weekend programs",
+            body: "Evening and Saturday classes for working adults.",
          },
-         esl: {
-            title: "ESL",
-            body: "ESL is a program with no college credit. It helps you read, write, listen and speak English in daily life, at work and at school. It is a good fit if you want to prepare for a GED program, job training or an industry certification.",
+         registration: {
+            title: "Registration steps",
+            body: "Steps to register for classes and pay for them.",
          },
-         workReadyU: {
-            before: "Dallas College also has the ",
-            link: "WorkReadyU ESL Academy",
-            after: ", a free program with no college credit. It is for eligible students who want better English for their career.",
+         locations: {
+            title: "Locations",
+            body: "Find campuses and centers near you.",
          },
       },
-      areaOfStudy: "Area of Study Overview",
-      esolCourses: {
-         heading: "ESOL Courses",
-         intro: "ESOL has classes in listening/speaking, reading, writing and grammar at four levels. Classes are in person. Levels three and four are also online.",
-         tableCaption: "ESOL courses by level and skill",
-         columns: {
-            level: "Level",
-            listeningSpeaking: "Listening/Speaking",
-            reading: "Reading",
-            writing: "Writing",
-            grammar: "Grammar",
-         },
-         extra: "There are also extra ESOL classes, such as Integrated Reading and Writing, for more practice.",
-         completeHeading: "To finish the ESOL program, do one of these:",
-         completeOptions: [
-            "Pass ESOL 0044 and ESOL 0054",
-            "Pass the reading and writing parts of the TSI Assessment",
-         ],
+      links: {
+         nightsWeekends: { label: "See night and weekend programs" },
+         registration: { label: "See the registration steps" },
+         locations: { label: "See all locations" },
       },
-      eslCourses: {
-         heading: "ESL Courses",
-         intro: "ESL has six levels. It helps you communicate better at work, for a promotion and in daily life.",
-         listHeading: "Courses in the ESL program:",
-         courses: [
-            { code: "COMG 1000", name: "Communications Improvement I (Integrated Skills)" },
-            { code: "COMG 1001", name: "Communications Improvement II (Integrated Skills)" },
-            { code: "COMG 1004", name: "Communications Improvement III (Integrated Skills)" },
-            { code: "COMG 1005", name: "Communications Improvement IV (Integrated Skills)" },
-            { code: "COMG 1007", name: "Communications Improvement V (Integrated Skills)" },
-            { code: "COMG 1008", name: "Communications Improvement VI (Integrated Skills)" },
-         ],
-         completion:
-            "After the ESL program, you can take the ESOL placement test if you want to keep studying.",
-      },
-      application: {
-         heading: "Application Process",
-         esol: {
-            title: "ESOL",
-            steps: [
-               { before: "", link: "Apply to Dallas College", after: "." },
-               { before: "Take an ", link: "ESOL placement test", after: " to find your starting level." },
-               { before: "Meet with a ", link: "success coach", after: "." },
-            ],
-         },
-         esl: {
-            title: "ESL",
-            steps: [
-               { before: "Meet with a continuing education ", link: "success coach", after: "." },
-               { before: "Take an ESL placement test to find your starting level.", link: "", after: "" },
-               { before: "Register with your success coach.", link: "", after: "" },
-            ],
-         },
-         questions: {
-            before: "Questions about registering for ESL? Email the continuing education success coaches at ",
-            after: ".",
-         },
-      },
-      helpfulPages: {
-         heading: "Helpful Dallas College Pages",
-         items: [
-            {
-               key: "registration",
-               title: "Register for Classes",
-               description: "Steps to register for classes and pay for them.",
-            },
-            {
-               key: "locations",
-               title: "Dallas College Locations",
-               description: "Find campuses and centers near you.",
-            },
-            {
-               key: "nightsWeekends",
-               title: "Nights and Weekends Classes",
-               description: "Evening and Saturday classes for working adults.",
-            },
-         ],
-      },
-      // Each footnote is a list of pieces: plain text, or a link ({ link: key, label }).
-      // The key says which address to use (see footnoteLinks in the page file).
-      footnotes: {
-         label: "Footnotes",
-         items: [
-            [
-               "Length of time is based on catalog degree plans. Prerequisites may be required, which are not included in this estimate. For most programs, full-time student status is assumed, a minimum of 12 credit hours per semester.",
-            ],
-            [
-               "Cost for credit courses is based on tuition rates for program hours for Dallas County residents. The price of most required learning materials (books, software, supplies, etc.) is included with the price of tuition. Certain programs may have additional costs above the standard tuition. Continuing Education courses may vary by program. Please review the ",
-               { link: "areaOfStudy", label: "Area of Study Overview" },
-               " and/or the ",
-               { link: "healthPackets", label: "Health Information Packets" },
-               " for additional costs and details. Visit our ",
-               { link: "payingForCollege", label: "Paying for College site" },
-               " to learn more about cost, financial aid, scholarships and more.",
-            ],
-            [
-               "Each location offers a unique combination of certificate and degree options. Not all degree and certificate offerings are available for admission/start at all campuses every semester.",
-            ],
-            [
-               "A portion of Lightcast’s data comes from ",
-               { link: "onet", label: "O*NET Online" },
-               " by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET® is a trademark of USDOL/ETA. Lightcast has modified all or some of this information. USDOL/ETA has not approved, endorsed, or tested these modifications.",
-            ],
-         ],
-      },
-      source: {
-         label: "Source:",
-         linkLabel: "Dallas College ESL page",
-         updated: "Updated October 16, 2026",
-      },
+      englishNote: "The Dallas College website is in English. Need help?",
    },
    home: {
       welcome: "Welcome",
