@@ -125,6 +125,35 @@ export const en = {
          body: "Talk with a student who has been where you are.",
       },
    },
+   // ESL & Classes page: three sections, each with a link to a Dallas College page
+   // (the README lists them as night and weekend programs, registration steps,
+   // locations). Same shape as financialAid above. Web addresses are not
+   // translated, so they live in app/[locale]/(frontend)/esl/page.tsx.
+   esl: {
+      title: "Learn English",
+      description: "Night and weekend programs, registration steps and locations.",
+      intro: "Night and weekend classes, how to sign up, and where to go.",
+      sections: {
+         nightsWeekends: {
+            title: "Night and weekend programs",
+            body: "Evening and Saturday classes for working adults.",
+         },
+         registration: {
+            title: "Registration steps",
+            body: "Steps to register for classes and pay for them.",
+         },
+         locations: {
+            title: "Locations",
+            body: "Find campuses and centers near you.",
+         },
+      },
+      links: {
+         nightsWeekends: { label: "See night and weekend programs" },
+         registration: { label: "See the registration steps" },
+         locations: { label: "See all locations" },
+      },
+      englishNote: "The Dallas College website is in English. Need help?",
+   },
    home: {
       welcome: "Welcome",
       howCanWeHelp: "How can we help you?",
