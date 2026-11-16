@@ -39,6 +39,7 @@ next-env.d.ts
 .idea/
 .vscode/
 *.pem
+*.lnk
 
 # Python environments and caches
 .venv/
