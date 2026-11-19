@@ -38,7 +38,10 @@ Expect Python 3.13.x and `Imports OK`.
 
 - `ptk_data/`: Python package for resource preparation and imports.
 - `ptk_data/models/`: Original Success Coach SQLAlchemy models, pending PTK adaptation.
-- `ptk_data/pipeline/`: Reserved for future preparation and import steps.
+- `ptk_data/pipeline/`: Data ingestion, chunking, and embedding pipelines:
+  - `convert_to_markdown.py`: Scrapes and converts Dallas College resource pages and PDFs into clean Markdown (#10).
+  - `chunk_resources.py`: Extracts and chunks Markdown files into structured JSON records with stable `doc_id` and SHA-256 hashes (#39).
+  - `embed_chunks.py`: Generates 384-dimensional multilingual vector embeddings using `Xenova/multilingual-e5-small` (#45).
 - `pyproject.toml`: Project metadata and required dependencies.
 - `uv.lock`: Resolved dependency versions for reproducible installations.
 - `.python-version`: Python version selected for development.
@@ -135,3 +138,73 @@ UniqueConstraint("source_url", "chunk_index", name="uq_knowledge_entry_source_ch
 * **Separate Task Scope (#15):** Schema alignment must be handled explicitly in Issue #15 by scoping chunks to document identity (`Resource(id, doc_id, ...)` $\rightarrow$ `ResourceChunk(resource_id, chunk_index, ...)` with `UniqueConstraint("resource_id", "chunk_index")`).
 
 
+
+## Multilingual Vector Embedding Pipeline
+
+The embedding pipeline generates 384-dimensional multilingual vector embeddings for Dallas College resource chunks, allowing queries in English, Spanish, Arabic, Burmese, and Swahili to semantically match campus resources.
+
+### Dataset Status (Issue #45)
+
+- **Input Chunks:** `Resources/Json/extracted_chunks.json` (120 chunks with authoritative manifest envelope)
+- **Embedded Vectors Output:** `Resources/Json/extracted_chunks_embedded.json` (120 chunks, each with 384 unit-norm floats)
+- **Storage:** Persisted locally in `Resources/Json/` (git-ignored) and synced to the team shared Google Drive folder.
+
+### Running the pipeline
+
+```bash
+cd apps/data
+# Standard execution (reads extracted_chunks.json, outputs extracted_chunks_embedded.json)
+uv run python -m ptk_data.pipeline.embed_chunks -i "<path_to_extracted_chunks.json>" -o "<path_to_embedded_output.json>"
+
+# Custom batch size and model with cross-lingual sanity verification
+uv run python -m ptk_data.pipeline.embed_chunks -i "Resources/Json/extracted_chunks.json" -o "Resources/Json/extracted_chunks_embedded.json" -b 32 --sanity-check
+```
+
+### Shared Multilingual Model Contract (Issue #45)
+
+* **Model:** `intfloat/multilingual-e5-small` / `Xenova/multilingual-e5-small`
+* **Output Dimensions:** `384` floats (aligns with `HALFVEC(384)` in `knowledge_entry.py`)
+* **Normalization:** Unit L2 norm (`norm = 1.0`, enabling fast cosine similarity via dot product)
+* **Ingestion Prefix:** Chunks must be prefixed with `passage: ` before embedding:
+  ```python
+  text_to_embed = f"passage: {chunk_text}"
+  ```
+* **Search Query Prefix (Next.js Retrieval):** Student queries must be prefixed with `query: `:
+  ```typescript
+  const queryToEmbed = `query: ${studentQuery}`;
+  ```
+
+### Next.js `/api/chat` Integration Guide
+
+When implementing RAG search in Next.js (`/api/chat`):
+
+```typescript
+import { pipeline } from "@huggingface/transformers";
+
+const extractor = await pipeline("feature-extraction", "Xenova/multilingual-e5-small", {
+   dtype: "int8", // or "fp32"
+});
+
+export async function embedQuery(query: string): Promise<number[]> {
+   const output = await extractor(`query: ${query}`, {
+      pooling: "mean",
+      normalize: true,
+   });
+   return Array.from(output.data);
+}
+```
+
+In SQL vector search (pgvector):
+```sql
+SELECT id, title, chunk_text, 1 - (embedding <=> :query_vector) AS cosine_similarity
+FROM knowledge_entry
+ORDER BY embedding <=> :query_vector
+LIMIT 5;
+```
+
+### Running unit tests
+
+```bash
+cd apps/data
+uv run pytest
+```
