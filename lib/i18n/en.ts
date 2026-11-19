@@ -199,10 +199,6 @@ export const en = {
       conversationLabel: "Conversation",
       youSaid: "You said:",
       thinking: "Looking for an answer…",
-      // TODO(backend): remove once answers come from the backend (RAG).
-      placeholderAnswer:
-         "[Placeholder answer. This will connect to the backend, which finds the answer in the resources PTK collected (RAG), and shows it in short, simple steps.]",
-      placeholderSource: "[resource name]",
       source: "Source:",
       helpful: "Was this helpful?",
       yes: "Yes",
@@ -215,6 +211,8 @@ export const en = {
       send: "Send question",
       askButton: "Ask",
       error: "Sorry, something went wrong. Please try again, or talk to a real person.",
+      tooManyQuestions: "You asked many questions quickly. Please wait a minute, then try again.",
+      tryAgain: "Try again",
    },
 };
 

@@ -59,7 +59,7 @@ export const DESCRIPTION = [
    "Write the query in English, even if the student wrote in another language.",
    "Search ONCE per question: rewording the same query does not find different records.",
    "",
-   "Each result's text IS the verified answer: use its facts and give its source_url as the link.",
+   "Each result's text IS the verified answer: use its facts. The page shows each result's source_url as a link.",
    "Results are short summaries: do not add details (dates, amounts, rules) they don't state.",
    "If found is false, the information is not in PTK's verified resources. Say so,",
    "suggest the Talk to Someone page or a Dallas College Success Coach, and do not guess.",

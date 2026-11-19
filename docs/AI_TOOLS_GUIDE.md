@@ -61,8 +61,9 @@ call, and `getToolName(part)` gives its name.
 | `lib/server/tools/search-resources.ts` | One tool: its `DESCRIPTION`, `INPUT_SCHEMA` and `EXECUTE`. |
 | `lib/server/tools/registry.ts` | `TOOL_REGISTRY`: every tool the AI can use. Also the `ChatTestMessage` type. |
 | `lib/tool-names.ts` | Each tool's name and progress text (running / done / failed). No server code, so the browser can use it. |
-| `app/api/chat/route.ts` | Gives `TOOL_REGISTRY` to the AI (only where dev tools are on, for now). |
+| `app/api/chat/route.ts` | Gives `TOOL_REGISTRY` to the AI: always for the live chatbot, and when "Use tools" is checked on `/dev/chat-test`. |
 | `components/dev/chat-test.tsx` | Shows each tool call on `/dev/chat-test` with its progress text, source links and raw JSON. |
+| `components/ui/chat-panel.tsx` | The live chatbot ("Ask a Question" page). See "How the live chatbot works" below. |
 
 ## How to add a tool
 
@@ -139,8 +140,9 @@ call, and `getToolName(part)` gives its name.
   more than the code for whether the AI uses it well.
 - **Links come from the tool, not the AI.** Show source links from the tool's
   output. Small models can garble a URL when they retype it.
-- **Dev tools only until reviewed.** New tools run only where dev tools are on
-  (local, or a Vercel preview with `ENABLE_DEV_TOOLS=true`), never on the live site.
+- **Every tool in the registry is live.** The live chatbot gets all of
+  `TOOL_REGISTRY`, so test a new tool on `/dev/chat-test` and get it reviewed
+  before merging it.
 
 ## How to test
 
@@ -173,10 +175,9 @@ call, and `getToolName(part)` gives its name.
   pipeline (#45) creates the chunk embeddings with the same model. For this
   model, queries start with `"query: "` and chunks with `"passage: "`. Only
   `EXECUTE` changes; the description, input and output stay the same.
-- **Who calls the search:** for the live site we may run the search on
-  *every* question instead of letting the AI choose, because small models
-  sometimes skip tools. The search code is the same either way: only who calls
-  it changes.
+- **Who calls the search:** on the live chatbot the search is *forced* on
+  every question (see below), because small models sometimes skip tools. On
+  `/dev/chat-test` the AI chooses. The search code is the same either way.
 - **Other languages:** the tool asks the AI to write the search query in
   English, because PTK's documents are in English. The sample search needs
   that. The e5 model can match other languages too, but English queries
@@ -185,3 +186,55 @@ call, and `getToolName(part)` gives its name.
 - **Showing tool calls:** the test page follows shadcn's
   [Tool](https://ui.shadcn.com/docs/ai-elements/base/tool) pattern, built
   from our `Trace` and `Code Block` components.
+
+## How the live chatbot works
+
+Added in issue #28. The "Ask a Question" page (`/chatbot`) uses the same
+`/api/chat` endpoint as `/dev/chat-test`, but with fixed settings the browser
+can't change.
+
+1. The student asks: they type a question, tap a starter question, or come
+   from Home with `?q=...`.
+2. The page (`components/ui/chat-panel.tsx`) sends it with `useChat`, along
+   with the page's language and the last 10 messages (so follow-up questions
+   work).
+3. The server checks the request:
+   - **Rate limit:** at most 10 questions a minute and 100 an hour per
+     visitor (`lib/server/rate-limit.ts`). Over the limit, the student sees
+     "You asked many questions quickly…".
+   - **Format:** only `user` and `assistant` messages (a `system` message
+     could change the rules), text-only questions up to 1,000 characters, and
+     at most 12 messages.
+4. The AI gets **our** rules (`lib/server/chatbot-prompt.ts`): answer only
+   from the search, in the student's language, in short plain steps; say so
+   when nothing is found and suggest Talk to Someone; never ask for
+   immigration status or personal information.
+5. **Step 1:** the AI *must* call `search_resources`. **Step 2:** it *must*
+   answer from the results (it can't search again). Answers are capped at
+   about 800 tokens.
+6. The answer appears word by word. Under it, the page shows the sources from
+   the search results (not from the AI's text), "Was this helpful?" and
+   "Talk to a real person".
+7. If anything fails, the student sees a friendly message and a **Try again**
+   button. The real error is printed in the terminal (or Vercel's logs).
+
+| File | What it does |
+| :--- | :--- |
+| `lib/server/chatbot-prompt.ts` | The live chatbot's rules. PTK should review the wording. |
+| `lib/server/rate-limit.ts` | The per-visitor limit. |
+| `lib/chatbot.ts` | Shared limits, plus helpers that get an answer's text and sources. Safe for the browser. |
+
+Good to know:
+
+- **The model must support tools**, including being *told* to use one. If a
+  model doesn't, every question fails, and with dev tools on the error says
+  why. Try another model from OpenRouter's "Tools" filter.
+- **The rate limit is in the server's memory.** On Vercel each copy of the
+  server counts on its own, and a restart resets it. It stops quick bursts,
+  not a determined attacker. For more protection, add a Rate Limit rule for
+  `/api/chat` in Vercel's Firewall. The limits are loose on purpose, because
+  a whole classroom on campus Wi-Fi can share one address.
+- **Source names are in English** for now, because they come from the English
+  page text (and later from PTK's English documents). The answer itself is in
+  the student's language.
+- **Feedback isn't saved yet** ("Was this helpful?" only says thank you).

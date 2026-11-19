@@ -66,7 +66,7 @@ function ChatTest() {
     event.preventDefault()
     const text = input.trim()
     if (!text || busy) return
-    void sendMessage({ text }, { body: { systemPrompt, useTools } })
+    void sendMessage({ text }, { body: { devTest: true, systemPrompt, useTools } })
     setInput("")
   }
 
