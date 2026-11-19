@@ -4,7 +4,7 @@ import { tool, type InferUITools, type UIDataTypes, type UIMessage } from "ai";
 
 import { SEARCH_RESOURCES_TOOL_NAME } from "@/lib/tool-names";
 
-import * as searchResources from "../search-resources";
+import * as searchResources from "./search-resources";
 
 /**
  * Every tool the AI can use (issue #42). How to add one: docs/AI_TOOLS_GUIDE.md.

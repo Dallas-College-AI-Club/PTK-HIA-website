@@ -1,7 +1,5 @@
 "use client"
 
-
-
 import { useChat } from "@ai-sdk/react"
 import { getToolName, isStaticToolUIPart } from "ai"
 import { CircleAlertIcon, SearchIcon, SparkleIcon } from "lucide-react"
@@ -46,6 +44,18 @@ function ChatTest() {
 
   const { messages, sendMessage, status, error, stop, setMessages, clearError } = useChat<ChatTestMessage>()
   const busy = status === "submitted" || status === "streaming"
+
+  // "Thinking…": the AI is working but nothing new is on screen yet. That's
+  // before its first word, and between steps (after a tool finishes, before
+  // the answer starts). A running tool shows its own line instead.
+  const lastMessage = messages.at(-1)
+  const lastPart = lastMessage?.role === "assistant" ? lastMessage.parts.at(-1) : undefined
+  const toolRunning =
+    lastPart !== undefined &&
+    isStaticToolUIPart(lastPart) &&
+    (lastPart.state === "input-streaming" || lastPart.state === "input-available")
+  const showingText = lastPart?.type === "text" && lastPart.text.length > 0
+  const thinking = busy && !showingText && !toolRunning
 
   // Keep the newest message in view while it streams in.
   useEffect(() => {
@@ -151,6 +161,16 @@ function ChatTest() {
                   </li>
                 ))}
               </ul>
+            )}
+            {thinking && (
+              <Trace className="mt-3">
+                <TraceLine status="running">
+                  <TraceIcon>
+                    <SparkleIcon />
+                  </TraceIcon>
+                  <TraceTitle>Thinking…</TraceTitle>
+                </TraceLine>
+              </Trace>
             )}
             <div ref={endRef} />
           </div>
