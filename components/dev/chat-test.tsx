@@ -1,29 +1,61 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react"
+import { getToolName, isStaticToolUIPart } from "ai"
+import { CircleAlertIcon, SearchIcon, SparkleIcon } from "lucide-react"
 import { useEffect, useId, useRef, useState } from "react"
 
+import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace"
 import { MAX_SYSTEM_PROMPT_LENGTH } from "@/lib/chat-limits"
+// `import type` is removed at build time, so this server-only file never reaches the browser.
+import type { ChatTestMessage } from "@/lib/server/tools/registry"
+import { TOOL_LABELS } from "@/lib/tool-names"
 
 const DEFAULT_SYSTEM_PROMPT =
-  "You are an academic advisor for Dallas College. Answer in short, simple steps. If you are not sure, say so and suggest talking to a Dallas College Success Coach."
+  "You are an academic advisor for Dallas College. Answer in short, simple steps. If you are not sure, say so and suggest talking to a Dallas College Success Coach. When tools are on, use search_resources before answering questions about Dallas College services, and include the source link."
+
+/** One tool call inside an AI message (issue #42). */
+type ToolPart = Extract<ChatTestMessage["parts"][number], { type: `tool-${string}` }>
 
 /**
  * Developer test UI for /dev/chat-test (issue #30). English only: this is a
  * tool for the team, not a page for students.
  *
- * The system prompt is sent with every message (not set once on useChat),
- * so changing it applies to the very next message.
+ * The system prompt and "Use tools" setting are sent with every message (not
+ * set once on useChat), so changing them applies to the very next message.
  */
 function ChatTest() {
   const systemId = useId()
   const messageId = useId()
+  const toolsId = useId()
   const endRef = useRef<HTMLDivElement>(null)
   const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT)
+  const [useTools, setUseTools] = useState(true)
   const [input, setInput] = useState("")
 
-  const { messages, sendMessage, status, error, stop, setMessages, clearError } = useChat()
+  const { messages, sendMessage, status, error, stop, setMessages, clearError } = useChat<ChatTestMessage>()
   const busy = status === "submitted" || status === "streaming"
+
+  // "Thinking…": the AI is working but nothing new is on screen yet. That's
+  // before its first word, and between steps (after a tool finishes, before
+  // the answer starts). A running tool shows its own line instead.
+  const lastMessage = messages.at(-1)
+  const lastPart = lastMessage?.role === "assistant" ? lastMessage.parts.at(-1) : undefined
+  const toolRunning =
+    lastPart !== undefined &&
+    isStaticToolUIPart(lastPart) &&
+    (lastPart.state === "input-streaming" || lastPart.state === "input-available")
+  const showingText = lastPart?.type === "text" && lastPart.text.length > 0
+  const thinking = busy && !showingText && !toolRunning
 
   // Keep the newest message in view while it streams in.
   useEffect(() => {
@@ -34,7 +66,7 @@ function ChatTest() {
     event.preventDefault()
     const text = input.trim()
     if (!text || busy) return
-    void sendMessage({ text }, { body: { systemPrompt } })
+    void sendMessage({ text }, { body: { systemPrompt, useTools } })
     setInput("")
   }
 
@@ -49,8 +81,8 @@ function ChatTest() {
         </p>
       </header>
 
-      <div className="grid flex-1 gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-        {/* System prompt */}
+      <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+        {/* Settings: system prompt and tools */}
         <section className="flex flex-col gap-2">
           <label htmlFor={systemId} className="font-bold">
             System prompt
@@ -65,6 +97,27 @@ function ChatTest() {
           />
           <p className="text-sm text-brand-muted">
             {systemPrompt.length} / {MAX_SYSTEM_PROMPT_LENGTH} characters. Applies to the next message you send.
+          </p>
+
+          <div className="mt-2 flex items-center gap-2">
+            <input
+              id={toolsId}
+              type="checkbox"
+              checked={useTools}
+              onChange={(event) => setUseTools(event.target.checked)}
+              // Switching mid-chat would leave tool calls the AI can no longer
+              // see, which confuses some models, so it's locked until Clear chat.
+              disabled={busy || messages.length > 0}
+              className="size-5 accent-brand-navy"
+            />
+            <label htmlFor={toolsId} className="font-bold">
+              Use tools
+            </label>
+          </div>
+          <p className="text-sm text-brand-muted">
+            {messages.length > 0
+              ? "Clear the chat to change this."
+              : "Lets the AI search sample PTK resources (search_resources) before answering. Your model must support tool calling. To test the error state, ask it to search for “fail-test”."}
           </p>
         </section>
 
@@ -85,18 +138,39 @@ function ChatTest() {
                     className={
                       message.role === "user"
                         ? "self-end rounded-xl bg-brand-navy px-3 py-2 text-white"
-                        : "self-start rounded-xl border border-brand-line bg-white px-3 py-2"
+                        : "flex max-w-full flex-col gap-2 self-start rounded-xl border border-brand-line bg-white px-3 py-2"
                     }
                   >
                     <span className="block text-xs font-bold opacity-75">
                       {message.role === "user" ? "You" : "Assistant"}
                     </span>
-                    <span className="whitespace-pre-wrap">
-                      {message.parts.map((part) => (part.type === "text" ? part.text : "")).join("")}
-                    </span>
+                    {/* Parts in the order they happened: tool steps first, then the answer. */}
+                    {message.parts.map((part, index) => {
+                      if (part.type === "text") {
+                        return (
+                          <span key={index} className="block whitespace-pre-wrap">
+                            {part.text}
+                          </span>
+                        )
+                      }
+                      if (isStaticToolUIPart(part)) {
+                        return <ToolStep key={part.toolCallId} part={part} busy={busy} />
+                      }
+                      return null
+                    })}
                   </li>
                 ))}
               </ul>
+            )}
+            {thinking && (
+              <Trace className="mt-3">
+                <TraceLine status="running">
+                  <TraceIcon>
+                    <SparkleIcon />
+                  </TraceIcon>
+                  <TraceTitle>Thinking…</TraceTitle>
+                </TraceLine>
+              </Trace>
             )}
             <div ref={endRef} />
           </div>
@@ -163,6 +237,77 @@ function ChatTest() {
         </section>
       </div>
     </main>
+  )
+}
+
+/** The progress text for a tool, from lib/tool-names.ts (with a fallback for unlisted tools). */
+function toolLabels(name: string) {
+  return TOOL_LABELS[name] ?? { running: `Running ${name}`, done: `Ran ${name}`, failed: `Couldn't run ${name}` }
+}
+
+/**
+ * Shows one tool call as a progress line, following shadcn's Tool pattern
+ * (Trace + Code Block): a plain line while it runs, and a line you can click
+ * to open (raw input and output) once it finishes. Works for any tool.
+ *
+ * Source links come straight from the tool's output, never from the AI's
+ * text, so they can't be garbled (a lesson from the Success Coach chatbot).
+ */
+function ToolStep({ part, busy }: { part: ToolPart; busy: boolean }) {
+  const labels = toolLabels(getToolName(part))
+  const query = part.input?.query
+  const withQuery = (text: string) => (query ? `${text} \u00b7 ${query}` : text)
+
+  if (part.state === "output-available" || part.state === "output-error") {
+    const failed = part.state === "output-error"
+    const results = failed ? [] : part.output.results
+
+    return (
+      <Trace>
+        <TraceCollapsible>
+          <TraceCollapsibleTrigger>
+            <TraceLine status={failed ? "error" : undefined}>
+              <TraceIcon>{failed ? <CircleAlertIcon /> : <SearchIcon />}</TraceIcon>
+              <TraceTitle>
+                {failed
+                  ? withQuery(labels.failed)
+                  : `${withQuery(labels.done)} \u00b7 ${results.length} ${results.length === 1 ? "result" : "results"}`}
+              </TraceTitle>
+            </TraceLine>
+          </TraceCollapsibleTrigger>
+          <TraceCollapsibleContent>
+            <CodeBlock size="sm">
+              <CodeBlockContent wrap className="max-h-64">
+                {failed ? part.errorText : JSON.stringify({ input: part.input, output: part.output }, null, 2)}
+              </CodeBlockContent>
+            </CodeBlock>
+          </TraceCollapsibleContent>
+        </TraceCollapsible>
+        {results.length > 0 && (
+          <ul className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+            {results.map((result) => (
+              <li key={result.source_url}>
+                <a href={result.source_url} target="_blank" rel="noreferrer" className="text-brand-navy underline">
+                  {result.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Trace>
+    )
+  }
+
+  // Still waiting for the result. If the chat isn't busy any more, Stop was pressed.
+  return (
+    <Trace>
+      <TraceLine status={busy ? "running" : "error"}>
+        <TraceIcon>
+          <SearchIcon />
+        </TraceIcon>
+        <TraceTitle>{busy ? `${withQuery(labels.running)}\u2026` : `${withQuery(labels.running)} (stopped)`}</TraceTitle>
+      </TraceLine>
+    </Trace>
   )
 }
 
