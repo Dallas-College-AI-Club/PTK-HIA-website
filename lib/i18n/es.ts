@@ -199,9 +199,6 @@ export const es: Messages = {
       conversationLabel: "Conversación",
       youSaid: "Usted dijo:",
       thinking: "Buscando una respuesta…",
-      placeholderAnswer:
-         "[Respuesta de ejemplo. Esto se conectará al backend, que busca la respuesta en los recursos reunidos por PTK (RAG) y la muestra en pasos cortos y sencillos.]",
-      placeholderSource: "[nombre del recurso]",
       source: "Fuente:",
       helpful: "¿Le fue útil?",
       yes: "Sí",
@@ -214,5 +211,7 @@ export const es: Messages = {
       send: "Enviar pregunta",
       askButton: "Preguntar",
       error: "Lo sentimos, algo salió mal. Inténtelo de nuevo o hable con una persona real.",
+      tooManyQuestions: "Hizo muchas preguntas muy rápido. Espere un minuto y vuelva a intentarlo.",
+      tryAgain: "Intentar de nuevo",
    },
 };

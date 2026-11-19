@@ -1,32 +1,43 @@
 "use client"
 
-import { ArrowLeft, ArrowRight, ArrowUp, ChevronRight, FileText, MessageCircle, ThumbsDown, ThumbsUp, Users } from "lucide-react"
+import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
+import { ArrowLeft, ArrowRight, ArrowUp, ChevronRight, FileText, MessageCircle, RotateCcw, ThumbsDown, ThumbsUp, Users } from "lucide-react"
 import { useLocale } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useId, useRef, useState } from "react"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 
-import { askChatbot } from "@/lib/chatbot"
+import { getMessageText, getSources, isRateLimitError, MAX_HISTORY_MESSAGES, MAX_QUESTION_LENGTH } from "@/lib/chatbot"
 import { getMessages } from "@/lib/i18n"
+// `import type` is removed at build time, so this server-only file never reaches the browser.
+import type { ChatbotMessage } from "@/lib/server/tools/registry"
 import { sitePages } from "@/lib/site-pages"
 import { cn } from "@/lib/utils"
-
-type ChatMessage =
-  | { id: number; role: "user"; text: string }
-  | { id: number; role: "bot"; text: string; sourceLabel?: string; sourceUrl?: string; failed?: boolean }
 
 type Feedback = "yes" | "no"
 
 /**
- * The chatbot page's conversation (issue: chatbot page UI).
+ * Sends questions to /api/chat. Only the last few messages go with each
+ * question, so requests stay small (the server refuses long histories).
+ */
+const transport = new DefaultChatTransport<ChatbotMessage>({
+  api: "/api/chat",
+  prepareSendMessagesRequest: ({ messages, body }) => ({
+    body: { ...body, messages: messages.slice(-MAX_HISTORY_MESSAGES) },
+  }),
+})
+
+/**
+ * The chatbot page's conversation (issue #28).
  *
  * How it works:
  * 1. A question arrives from the Home page as ?q=... (or the visitor types
  *    one, or taps a starter question).
- * 2. The question is added to the list as a "user" message.
- * 3. askChatbot() in lib/chatbot.ts gets the answer. For now that's a
- *    placeholder; later it calls the backend (RAG).
- * 4. The answer is added as a "bot" message with its source, a
+ * 2. useChat sends it to /api/chat with the page's language.
+ * 3. The server searches PTK's resources, and the AI answers from them in
+ *    the visitor's language. The answer appears word by word.
+ * 4. Under the answer: its sources (from the search, not the AI's text), a
  *    "Was this helpful?" question and a link to talk to a real person.
  */
 function ChatPanel() {
@@ -39,39 +50,43 @@ function ChatPanel() {
   const inputId = useId()
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const endRef = useRef<HTMLDivElement>(null)
-  const nextId = useRef(0)
   const askedFromUrl = useRef(false)
 
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const { messages, sendMessage, regenerate, status, error, clearError } = useChat<ChatbotMessage>({ transport })
   const [question, setQuestion] = useState("")
-  const [thinking, setThinking] = useState(false)
-  const [feedback, setFeedback] = useState<Record<number, Feedback>>({})
+  const [feedback, setFeedback] = useState<Record<string, Feedback>>({})
 
-  async function ask(text: string) {
-    const q = text.trim()
-    if (!q || thinking) return
+  const busy = status === "submitted" || status === "streaming"
+  const lastMessage = messages.at(-1)
+  // "Looking for an answer…" until the first words of the answer arrive.
+  const thinking = busy && !(lastMessage?.role === "assistant" && getMessageText(lastMessage))
 
-    setMessages((list) => [...list, { id: nextId.current++, role: "user", text: q }])
+  function ask(text: string) {
+    const q = text.trim().slice(0, MAX_QUESTION_LENGTH)
+    if (!q || busy) return
+    if (error) clearError()
     setQuestion("")
-    setThinking(true)
-    try {
-      const answer = await askChatbot(q, locale)
-      setMessages((list) => [...list, { id: nextId.current++, role: "bot", ...answer }])
-    } catch {
-      setMessages((list) => [...list, { id: nextId.current++, role: "bot", text: t.error, failed: true }])
-    } finally {
-      setThinking(false)
-    }
+    void sendMessage({ text: q }, { body: { locale } })
+  }
+
+  function tryAgain() {
+    clearError()
+    void regenerate({ body: { locale } })
   }
 
   // A question sent from the Home page (?q=...) is asked once, then removed
   // from the address so a refresh doesn't ask it again.
+  // It waits one moment (setTimeout) because in development React mounts the
+  // page twice, and useChat cancels its request when the first copy goes away.
   useEffect(() => {
     const q = searchParams.get("q")
     if (!q || askedFromUrl.current) return
-    askedFromUrl.current = true
-    router.replace(pathname, { scroll: false })
-    void ask(q)
+    const timer = setTimeout(() => {
+      askedFromUrl.current = true
+      router.replace(pathname, { scroll: false })
+      ask(q)
+    }, 0)
+    return () => clearTimeout(timer)
     // ask() is intentionally left out: this should only run for the first ?q=.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, pathname, router])
@@ -79,15 +94,16 @@ function ChatPanel() {
   // Keep the newest message in view.
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "nearest" })
-  }, [messages, thinking])
+  }, [messages, thinking, error])
 
-  const hasAnswer = messages.some((message) => message.role === "bot")
-  const lastBotId = [...messages].reverse().find((message) => message.role === "bot")?.id
+  const answers = messages.filter((message) => message.role === "assistant" && getMessageText(message))
+  const hasAnswer = answers.length > 0
+  const lastAnswerId = answers.at(-1)?.id
 
   return (
     <div className="flex flex-col gap-4 md:rounded-[18px] md:border md:border-brand-line md:bg-white md:p-6">
-      <div role="log" aria-label={t.conversationLabel} className="flex flex-col gap-3 md:gap-4">
-        {messages.length === 0 && !thinking && (
+      <div role="log" aria-label={t.conversationLabel} aria-busy={busy} className="flex flex-col gap-3 md:gap-4">
+        {messages.length === 0 && !busy && (
           <>
             <BotBubble name={t.botName}>
               <p>{t.greeting}</p>
@@ -98,7 +114,7 @@ function ChatPanel() {
                 <button
                   key={starter}
                   type="button"
-                  onClick={() => void ask(starter)}
+                  onClick={() => ask(starter)}
                   className="flex min-h-[52px] items-center gap-2.5 rounded-[14px] border-2 border-brand-line bg-white px-3.5 py-2 text-start text-base font-bold text-brand-navy-dark hover:border-brand-navy"
                 >
                   <span className="flex-1">{starter}</span>
@@ -109,40 +125,72 @@ function ChatPanel() {
           </>
         )}
 
-        {messages.map((message) =>
-          message.role === "user" ? (
-            <div
-              key={message.id}
-              className="max-w-[85%] self-end rounded-[18px] rounded-br-[4px] bg-brand-navy px-4 py-3 font-semibold text-white md:max-w-[70%] md:text-[17px]"
-            >
-              <span className="sr-only">{t.youSaid} </span>
-              {message.text}
-            </div>
-          ) : (
+        {messages.map((message) => {
+          const text = getMessageText(message)
+
+          if (message.role === "user") {
+            return (
+              <div
+                key={message.id}
+                className="max-w-[85%] self-end rounded-[18px] rounded-br-[4px] bg-brand-navy px-4 py-3 font-semibold break-words whitespace-pre-wrap text-white md:max-w-[70%] md:text-[17px]"
+              >
+                <span className="sr-only">{t.youSaid} </span>
+                {text}
+              </div>
+            )
+          }
+
+          // An answer with no words yet is shown as "Looking for an answer…" below.
+          if (!text) return null
+
+          const stillWriting = busy && message.id === lastMessage?.id
+          const sources = stillWriting ? [] : getSources(message)
+
+          return (
             <BotBubble key={message.id} name={t.botName}>
-              <p>{message.text}</p>
-              {message.sourceLabel && (
-                <SourceLink label={`${t.source} ${message.sourceLabel}`} href={message.sourceUrl} />
+              <p className="break-words whitespace-pre-wrap">{text}</p>
+              {sources.length > 0 && (
+                <ul className="flex flex-col gap-0.5">
+                  {sources.map((source) => (
+                    <li key={source.sourceUrl}>
+                      <SourceLink label={`${t.source} ${source.sourceLabel}`} href={source.sourceUrl} />
+                    </li>
+                  ))}
+                </ul>
               )}
-              {message.id === lastBotId && !message.failed && (
+              {message.id === lastAnswerId && !stillWriting && !error && (
                 <HelpfulQuestion
                   value={feedback[message.id]}
                   onChoose={(choice) => setFeedback((all) => ({ ...all, [message.id]: choice }))}
                 />
               )}
             </BotBubble>
-          ),
-        )}
+          )
+        })}
 
         {thinking && (
           <BotBubble name={t.botName}>
             <p role="status" className="text-brand-muted">{t.thinking}</p>
           </BotBubble>
         )}
+
+        {error && (
+          <BotBubble name={t.botName}>
+            <p role="alert">{isRateLimitError(error) ? t.tooManyQuestions : t.error}</p>
+            <button
+              type="button"
+              onClick={tryAgain}
+              className="flex h-11 w-fit items-center gap-2 rounded-full border-2 border-brand-navy bg-white px-4 text-[15px] font-bold text-brand-navy hover:bg-brand-tint"
+            >
+              <RotateCcw aria-hidden="true" className="size-[18px]" />
+              {t.tryAgain}
+            </button>
+          </BotBubble>
+        )}
         <div ref={endRef} />
       </div>
 
-      {hasAnswer && (
+      {(hasAnswer || error) && (
         <Link
           href={sitePages.talkToSomeone.href}
           className="flex min-h-[60px] items-center gap-3 rounded-2xl border-[3px] border-brand-navy bg-brand-gold-soft px-3.5 py-2 text-brand-navy-dark md:min-h-[68px] md:gap-3.5 md:px-[18px]"
@@ -165,7 +213,7 @@ function ChatPanel() {
             inputRef.current?.focus()
             return
           }
-          void ask(question)
+          ask(question)
         }}
         className="flex flex-col gap-2 border-t border-brand-line pt-3 md:border-brand-line-soft md:pt-4"
       >
@@ -178,6 +226,7 @@ function ChatPanel() {
             id={inputId}
             name="question"
             rows={1}
+            maxLength={MAX_QUESTION_LENGTH}
             value={question}
             onChange={(event) => setQuestion(event.target.value)}
             onKeyDown={(event) => {
@@ -195,7 +244,7 @@ function ChatPanel() {
           <button
             type="submit"
             aria-label={t.send}
-            disabled={thinking}
+            disabled={busy}
             className="flex size-[52px] shrink-0 items-center justify-center rounded-xl bg-brand-navy font-bold text-white hover:bg-brand-navy-dark disabled:opacity-60 md:h-[54px] md:w-auto md:gap-2 md:px-6 md:text-[17px]"
           >
             <ArrowUp aria-hidden="true" className="size-[22px] md:hidden" strokeWidth={2.5} />
@@ -232,7 +281,6 @@ function SourceLink({ label, href }: { label: string; href?: string }) {
   )
   const className = "flex min-h-8 items-center gap-1.5 text-sm font-bold text-brand-navy md:text-[15px]"
 
-  // No link until the backend sends real sources.
   return href ? (
     <a href={href} target="_blank" rel="noreferrer" className={cn(className, "underline")}>
       {content}

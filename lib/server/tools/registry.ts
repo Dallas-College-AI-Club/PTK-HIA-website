@@ -9,8 +9,8 @@ import * as searchResources from "./search-resources";
 /**
  * Every tool the AI can use (issue #42). How to add one: docs/AI_TOOLS_GUIDE.md.
  *
- * For now these only run where dev tools are on (see app/api/chat/route.ts),
- * because search_resources uses sample data, not the real database.
+ * The live chatbot (issue #28) and /dev/chat-test both use them. See
+ * app/api/chat/route.ts.
  */
 export const TOOL_REGISTRY = {
    [SEARCH_RESOURCES_TOOL_NAME]: tool({
@@ -22,8 +22,11 @@ export const TOOL_REGISTRY = {
 
 /**
  * The shape of a chat message, including every tool's input and output.
- * Pass it to useChat<ChatTestMessage>() so tool parts are fully typed.
+ * Pass it to useChat<ChatbotMessage>() so tool parts are fully typed.
  * Client components must use `import type` for this (the type is removed at
  * build time, so this server-only file never reaches the browser).
  */
-export type ChatTestMessage = UIMessage<unknown, UIDataTypes, InferUITools<typeof TOOL_REGISTRY>>;
+export type ChatbotMessage = UIMessage<unknown, UIDataTypes, InferUITools<typeof TOOL_REGISTRY>>;
+
+/** The same shape, used by /dev/chat-test. */
+export type ChatTestMessage = ChatbotMessage;
