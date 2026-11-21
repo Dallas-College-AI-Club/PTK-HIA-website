@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 
 /**
  * Top bar, repeated on every page.
- * Row 1 (all screens): logo, Text size, language selector.
+ * Row 1 (all screens): logo, language selector.
  * Row 2 (desktop only): page links, ending with a filled "Ask a Question"
  * button (see nav-links.tsx). Two rows in every language, so long
  * translations wrap onto another line instead of breaking the bar.
@@ -36,23 +36,6 @@ async function NavBar() {
         </Link>
 
         <div className="ml-auto flex items-center gap-1.5 md:gap-2">
-          {/* TODO: text size (16px -> 20px) will be implemented later.
-              Disabled until then so it isn't a button that silently does nothing. */}
-          <button
-            type="button"
-            disabled
-            aria-label={`${t.layout.textSize} (${t.layout.comingSoon})`}
-            title={t.layout.comingSoon}
-            className="flex min-h-11 min-w-11 cursor-not-allowed items-center justify-center gap-2 rounded-full border-2 border-brand-line bg-white px-2.5 font-semibold text-brand-ink opacity-60 md:px-3.5"
-          >
-            <span aria-hidden="true" className="text-[17px] font-extrabold">
-              Aa
-            </span>
-            <span aria-hidden="true" className="hidden md:inline">
-              {t.layout.textSize}
-            </span>
-          </button>
-
           {/* Language selector (issue #12). Keep it within ~120px on phones
               and ~160px on desktop. */}
           <div data-slot="language-selector">

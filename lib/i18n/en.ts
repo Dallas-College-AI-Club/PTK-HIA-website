@@ -20,7 +20,6 @@ export const en = {
       askQuestion: "Ask a Question",
    },
    layout: {
-      textSize: "Text size",
       backHome: "Home",
       stillHaveQuestion: "Still have a question?",
       stillHaveQuestionBody: "Ask in your language. Answers come from resources collected by PTK.",
