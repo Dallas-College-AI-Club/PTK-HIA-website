@@ -22,7 +22,6 @@ export const es: Messages = {
       start: "Empezar",
    },
    layout: {
-      textSize: "Tamaño del texto",
       backHome: "Inicio",
       stillHaveQuestion: "¿Todavía tiene una pregunta?",
       stillHaveQuestionBody: "Pregunte en su idioma. Las respuestas vienen de recursos reunidos por PTK.",
