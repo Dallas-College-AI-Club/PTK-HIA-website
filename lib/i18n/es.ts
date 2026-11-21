@@ -18,6 +18,7 @@ export const es: Messages = {
       payForCollege: "Pagar la universidad",
       talkToSomeone: "Hablar con alguien",
       askQuestion: "Hacer una pregunta",
+      start: "Empezar",
    },
    layout: {
       backHome: "Inicio",
@@ -167,6 +168,9 @@ export const es: Messages = {
       aiNotice:
          "Las respuestas vienen de recursos reunidos por PTK. Confirme siempre los detalles importantes con Dallas College.",
       illustrationAlt: "Globos de diálogo que dicen hola en inglés, español, árabe, birmano y suajili",
+      startButton: "¿No sabe por dónde empezar? Responda 2 preguntas rápidas",
+      illustrationAlt: "Ilustración de ejemplo: familias diversas caminando al campus",
+      illustrationPlaceholder: "Ilustración de ejemplo",
       whatDoYouNeed: "¿Qué necesita?",
       cards: {
          learnEnglish: { title: "Aprender inglés (ESL)", description: "Clases de inglés de noche y los fines de semana" },
@@ -251,5 +255,40 @@ export const es: Messages = {
       error: "Lo sentimos, algo salió mal. Inténtelo de nuevo o hable con una persona real.",
       tooManyQuestions: "Hizo muchas preguntas muy rápido. Espere un minuto y vuelva a intentarlo.",
       tryAgain: "Intentar de nuevo",
+   },
+   onboarding: {
+      title: "Encuentre lo que necesita",
+      intro: "Responda 2 preguntas rápidas para que el chatbot le ayude más rápido. No se guarda nada.",
+      progress: "Paso {step} de {total}",
+      steps: {
+         needs: {
+            title: "¿Con qué necesita ayuda?",
+            hint: "Toque una o más.",
+            error: "Toque al menos una respuesta, o “No estoy seguro”.",
+         },
+         about: {
+            title: "¿Algo más sobre usted?",
+            hint: "Opcional. Toque las que apliquen, o salte este paso.",
+         },
+      },
+      options: {
+         esl: { label: "Clases de inglés", question: "¿Cómo me inscribo en las clases de inglés de noche?" },
+         college: { label: "Empezar la universidad", question: "¿Cómo solicito admisión y me inscribo en clases?" },
+         pay: { label: "Pagar la universidad", question: "¿Cómo puedo obtener ayuda para pagar la universidad?" },
+         childcare: { label: "Cuidado de niños", question: "¿Qué ayuda hay para el cuidado de niños de los estudiantes?" },
+         transit: { label: "Pase de autobús", question: "¿Cómo obtengo el pase de autobús gratis para estudiantes?" },
+         counseling: { label: "Consejería", question: "¿Cómo hago una cita de consejería?" },
+         "not-sure": { label: "No estoy seguro" },
+         parent: { label: "Soy padre o madre" },
+         "works-days": { label: "Trabajo durante el día" },
+         new: { label: "Soy nuevo en la universidad" },
+      },
+      back: "Atrás",
+      next: "Siguiente",
+      skip: "Saltar",
+      startChatting: "Empezar a chatear",
+      chatGreeting: "Aquí hay preguntas sobre lo que eligió. Toque una, o escriba la suya.",
+      yourAnswers: "Usted eligió:",
+      change: "Cambiar",
    },
 };

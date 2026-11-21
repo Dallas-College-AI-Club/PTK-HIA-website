@@ -1,0 +1,257 @@
+/**
+ * English text for the layout and Home page.
+ *
+ * Every word users see lives here (not inside components), so adding a
+ * language means adding one more file with the same keys. Components read
+ * text through getMessages(locale) in ./index.ts, never by importing this file.
+ */
+export const en = {
+   brand: {
+      name: "PTK × AI Club",
+      college: "Dallas College",
+      logoPlaceholder: "Logo",
+   },
+   pages: {
+      home: "Home",
+      learnEnglish: "Learn English",
+      startCollege: "Start College",
+      payForCollege: "Pay for College",
+      talkToSomeone: "Talk to Someone",
+      askQuestion: "Ask a Question",
+      start: "Get Started",
+   },
+   layout: {
+      textSize: "Text size",
+      backHome: "Home",
+      stillHaveQuestion: "Still have a question?",
+      stillHaveQuestionBody: "Ask in your language. Answers come from resources collected by PTK.",
+      askInYourLanguage: "Ask in your language",
+      footerPoweredBy: "Powered by PTK and AI Club at Dallas College",
+      footerInstagram: "Instagram",
+      footerPrivacy: "Privacy",
+      comingSoon: "Coming soon",
+      opensNewTab: "(opens in a new tab)",
+      footerNotOfficial: "Not an official Dallas College website.",
+      mainNavLabel: "Main",
+      quickActionsLabel: "Quick actions",
+      footerNavLabel: "Footer",
+   },
+   language: {
+      label: "Language",
+      chooseTitle: "Choose your language",
+   },
+   startCollege: {
+      intro: "You apply and register for classes on the Dallas College website.",
+      registrationLink: "Go to Dallas College registration",
+      englishNote: "The Dallas College website is in English. Need help with the steps?",
+   },
+   financialAid: {
+      intro: "Ways to get help paying for school.",
+      sections: {
+         aid: {
+            title: "Financial aid",
+            body: "Money from the government to help pay for classes. Apply every year.",
+         },
+         busPass: {
+            title: "Free student bus pass",
+            body: "Ride DART buses and trains for free while you take classes.",
+         },
+         scholarships: {
+            title: "Scholarships",
+            body: "Money for school that you don't pay back.",
+         },
+      },
+      // A hint is only added where the label alone isn't clear.
+      links: {
+         aidOverview: { label: "How financial aid works" },
+         fafsa: { label: "Apply with the FAFSA", hint: "For U.S. citizens, permanent residents and refugees" },
+         tasfa: { label: "Apply with the TASFA", hint: "For Texas students who can't use the FAFSA" },
+         keepAid: { label: "Keep your financial aid" },
+         goPass: { label: "Get your DART GoPass" },
+         scholarships: { label: "Find scholarships", hint: "One application for many scholarships" },
+         dreamers: { label: "Help for Dreamers and DACA students" },
+      },
+      englishNote: "The Dallas College website is in English. Need help?",
+   },
+   getConnected: {
+      title: "Talk to someone",
+      intro: "Leave your contact details and a real person at Dallas College will reach out.",
+      privacyNote: "We will never ask about immigration status.",
+      fields: {
+         fullName: "Full name",
+         email: "Email",
+         phone: "Phone",
+         contactHint: "Give us an email or a phone number (or both).",
+         preferredLanguage: "Preferred language",
+         situation: "Which describes you best?",
+         helpWith: "What do you need help with?",
+         notes: "Anything else we should know? (optional)",
+         choose: "Choose one",
+      },
+      situations: {
+         highSchoolSenior: "Graduating high school senior",
+         currentStudent: "Current Dallas College student",
+         parent: "Parent",
+         refugee: "Refugee / new to the U.S.",
+         eslLearner: "ESL learner",
+         other: "Other",
+      },
+      helpTopics: {
+         admissions: "Admissions",
+         esl: "ESL classes",
+         financialAid: "Financial aid / tuition",
+         childcare: "Childcare",
+         transportation: "Transportation",
+         counseling: "Counseling",
+         other: "Other",
+      },
+      errors: {
+         fullNameRequired: "Please enter your name.",
+         contactRequired: "Please give us an email or a phone number.",
+         emailInvalid: "This email doesn't look complete. Check for an @ and a dot.",
+         choose: "Please choose one.",
+         generic: "Something went wrong on our side. Please try again.",
+      },
+      submit: "Send my request",
+      sending: "Sending…",
+      thankYouTitle: "Thank you!",
+      thankYouBody: "Someone from Dallas College will contact you soon.",
+      ptkContact: {
+         title: "Contact PTK",
+         body: "Have a question for the PTK students who made this site? Send us an email.",
+         emailButton: "Email PTK",
+      },
+      peerMentor: {
+         title: "Peer mentors",
+         body: "Talk with a student who has been where you are.",
+      },
+   },
+   // ESL & Classes page: three sections, each with a link to a Dallas College page
+   // (the README lists them as night and weekend programs, registration steps,
+   // locations). Same shape as financialAid above. Web addresses are not
+   // translated, so they live in app/[locale]/(frontend)/esl/page.tsx.
+   esl: {
+      title: "Learn English",
+      description: "Night and weekend programs, registration steps and locations.",
+      intro: "Night and weekend classes, how to sign up, and where to go.",
+      sections: {
+         nightsWeekends: {
+            title: "Night and weekend programs",
+            body: "Evening and Saturday classes for working adults.",
+         },
+         registration: {
+            title: "Registration steps",
+            body: "Steps to register for classes and pay for them.",
+         },
+         locations: {
+            title: "Locations",
+            body: "Find campuses and centers near you.",
+         },
+      },
+      links: {
+         nightsWeekends: { label: "See night and weekend programs" },
+         registration: { label: "See the registration steps" },
+         locations: { label: "See all locations" },
+      },
+      englishNote: "The Dallas College website is in English. Need help?",
+   },
+   home: {
+      welcome: "Welcome",
+      howCanWeHelp: "How can we help you?",
+      askLabel: "Ask a question in your language",
+      askPlaceholder: "Type your question",
+      askButton: "Ask",
+      popular: "Popular:",
+      popularQuestions: [
+         { label: "Night ESL classes", question: "How do I sign up for night ESL classes?" },
+         { label: "Scholarships", question: "What scholarships can I apply for?" },
+         { label: "Free bus pass", question: "How do I get the free student bus pass?" },
+      ],
+      aiNotice:
+         "Answers come from resources collected by PTK. Always confirm important details with Dallas College.",
+      startButton: "Not sure where to start? Answer 2 quick questions",
+      illustrationAlt: "Illustration placeholder: diverse families walking to campus",
+      illustrationPlaceholder: "Illustration placeholder",
+      whatDoYouNeed: "What do you need?",
+      cards: {
+         learnEnglish: { title: "Learn English (ESL)", description: "English classes at night and on weekends" },
+         startCollege: { title: "Start College", description: "Steps from applying to your first class" },
+         payForCollege: { title: "Pay for College", description: "Financial aid, scholarships and payment plans" },
+         talkToSomeone: { title: "Talk to Someone", description: "A real person will help you" },
+      },
+      moreHelp: "More help",
+      moreHelpItems: {
+         childcare: { label: "Childcare", question: "What childcare help is there for students?" },
+         busPass: { label: "Bus pass", question: "How do I get the free student bus pass?" },
+         counseling: { label: "Counseling", question: "How do I make a counseling appointment?" },
+      },
+   },
+   chatbot: {
+      title: "Ask a Question",
+      subtitle: "Ask in your language",
+      botName: "PTK Chatbot",
+      greeting: "Hello! Ask me anything about Dallas College. You can write in your own language.",
+      tapAQuestion: "Or tap a question:",
+      starterQuestions: [
+         "How do I sign up for night ESL classes?",
+         "What scholarships can I apply for?",
+         "How do I get the free student bus pass?",
+         "What childcare help is there for students?",
+      ],
+      conversationLabel: "Conversation",
+      youSaid: "You said:",
+      thinking: "Looking for an answer…",
+      source: "Source:",
+      helpful: "Was this helpful?",
+      yes: "Yes",
+      no: "No",
+      thanksForFeedback: "Thank you for telling us.",
+      talkToPerson: "Talk to a real person",
+      talkToPersonBody: "Someone at Dallas College will help you",
+      inputLabel: "Type your question",
+      askAnother: "Ask another question",
+      send: "Send question",
+      askButton: "Ask",
+      error: "Sorry, something went wrong. Please try again, or talk to a real person.",
+      tooManyQuestions: "You asked many questions quickly. Please wait a minute, then try again.",
+      tryAgain: "Try again",
+   },
+   onboarding: {
+      title: "Find what you need",
+      intro: "Answer 2 quick questions so the chatbot can help you faster. Nothing is saved.",
+      // {step} and {total} are replaced with numbers.
+      progress: "Step {step} of {total}",
+      steps: {
+         needs: {
+            title: "What do you need help with?",
+            hint: "Tap one or more.",
+            error: "Tap at least one answer, or “I'm not sure”.",
+         },
+         about: {
+            title: "Anything else about you?",
+            hint: "Optional. Tap any that fit, or skip.",
+         },
+      },
+      options: {
+         esl: { label: "English classes", question: "How do I sign up for night ESL classes?" },
+         college: { label: "Start college", question: "How do I apply and sign up for classes?" },
+         pay: { label: "Pay for college", question: "How can I get help paying for college?" },
+         childcare: { label: "Child care", question: "What childcare help is there for students?" },
+         transit: { label: "Bus pass", question: "How do I get the free student bus pass?" },
+         counseling: { label: "Counseling", question: "How do I make a counseling appointment?" },
+         "not-sure": { label: "I'm not sure" },
+         parent: { label: "I'm a parent" },
+         "works-days": { label: "I work during the day" },
+         new: { label: "I'm new to college" },
+      },
+      back: "Back",
+      next: "Next",
+      skip: "Skip",
+      startChatting: "Start chatting",
+      chatGreeting: "Here are questions about what you picked. Tap one, or type your own.",
+      yourAnswers: "You picked:",
+      change: "Change",
+   },
+};
+
+export type Messages = typeof en;

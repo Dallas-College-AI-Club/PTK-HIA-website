@@ -1,4 +1,4 @@
-import { ArrowRight, Baby, Bus, ChevronRight, Heart, type LucideIcon } from "lucide-react";
+import { ArrowRight, Baby, Bus, ChevronRight, Compass, Heart, ImageIcon, type LucideIcon } from "lucide-react";
 import { getLocale } from "next-intl/server";
 
 import { AskBox } from "@/components/ui/ask-box";
@@ -32,6 +32,15 @@ export default async function Home() {
                      <p className="mt-1.5 text-xl font-semibold md:mt-2.5 md:text-2xl">{t.home.howCanWeHelp}</p>
                   </div>
                   <AskBox />
+                  {/* Onboarding (issue #49): 2 quick questions, then the chatbot. */}
+                  <Link
+                     href={sitePages.start.href}
+                     className="flex min-h-[56px] items-center gap-3 rounded-2xl border-2 border-brand-navy bg-white px-4 py-2 font-bold text-brand-navy-dark hover:bg-brand-tint md:min-h-[60px] md:text-[17px]"
+                  >
+                     <Compass aria-hidden="true" className="size-6 shrink-0 text-brand-navy" />
+                     <span className="flex-1">{t.home.startButton}</span>
+                     <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy" strokeWidth={2.5} />
+                  </Link>
                </div>
 
                {/* "Hello" in our 5 languages (issue #53). Phones get a short, wide

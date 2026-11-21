@@ -17,6 +17,7 @@ export const en = {
       payForCollege: "Pay for College",
       talkToSomeone: "Talk to Someone",
       askQuestion: "Ask a Question",
+      start: "Get Started",
    },
    layout: {
       backHome: "Home",
@@ -167,6 +168,9 @@ export const en = {
       aiNotice:
          "Answers come from resources collected by PTK. Always confirm important details with Dallas College.",
       illustrationAlt: "Speech bubbles saying hello in English, Spanish, Arabic, Burmese and Swahili",
+      startButton: "Not sure where to start? Answer 2 quick questions",
+      illustrationAlt: "Illustration placeholder: diverse families walking to campus",
+      illustrationPlaceholder: "Illustration placeholder",
       whatDoYouNeed: "What do you need?",
       cards: {
          learnEnglish: { title: "Learn English (ESL)", description: "English classes at night and on weekends" },
@@ -251,6 +255,42 @@ export const en = {
       error: "Sorry, something went wrong. Please try again, or talk to a real person.",
       tooManyQuestions: "You asked many questions quickly. Please wait a minute, then try again.",
       tryAgain: "Try again",
+   },
+   onboarding: {
+      title: "Find what you need",
+      intro: "Answer 2 quick questions so the chatbot can help you faster. Nothing is saved.",
+      // {step} and {total} are replaced with numbers.
+      progress: "Step {step} of {total}",
+      steps: {
+         needs: {
+            title: "What do you need help with?",
+            hint: "Tap one or more.",
+            error: "Tap at least one answer, or “I'm not sure”.",
+         },
+         about: {
+            title: "Anything else about you?",
+            hint: "Optional. Tap any that fit, or skip.",
+         },
+      },
+      options: {
+         esl: { label: "English classes", question: "How do I sign up for night ESL classes?" },
+         college: { label: "Start college", question: "How do I apply and sign up for classes?" },
+         pay: { label: "Pay for college", question: "How can I get help paying for college?" },
+         childcare: { label: "Child care", question: "What childcare help is there for students?" },
+         transit: { label: "Bus pass", question: "How do I get the free student bus pass?" },
+         counseling: { label: "Counseling", question: "How do I make a counseling appointment?" },
+         "not-sure": { label: "I'm not sure" },
+         parent: { label: "I'm a parent" },
+         "works-days": { label: "I work during the day" },
+         new: { label: "I'm new to college" },
+      },
+      back: "Back",
+      next: "Next",
+      skip: "Skip",
+      startChatting: "Start chatting",
+      chatGreeting: "Here are questions about what you picked. Tap one, or type your own.",
+      yourAnswers: "You picked:",
+      change: "Change",
    },
 };
 

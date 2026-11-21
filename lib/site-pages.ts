@@ -1,5 +1,6 @@
 import {
    BookOpen,
+   Compass,
    GraduationCap,
    House,
    MessageCircle,
@@ -19,7 +20,8 @@ export type SitePageKey =
    | "startCollege"
    | "payForCollege"
    | "talkToSomeone"
-   | "askQuestion";
+   | "askQuestion"
+   | "start";
 
 /**
  * How a page stands out wherever it is linked:
@@ -38,6 +40,8 @@ export const sitePages: Record<SitePageKey, SitePage> = {
    payForCollege: { href: "/financial-aid", icon: Wallet },
    talkToSomeone: { href: "/get-connected", icon: Users, emphasis: "gold" },
    askQuestion: { href: "/chatbot", icon: MessageCircle, emphasis: "primary" },
+   // The 2-question onboarding (issue #49). Linked from Home, not the navbar.
+   start: { href: "/start", icon: Compass },
 };
 
 /** Desktop navbar links, in order. */
