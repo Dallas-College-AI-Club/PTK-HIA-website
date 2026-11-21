@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { getLocale } from "next-intl/server"
 
 import { LanguageSelector } from "@/components/ui/language-selector"
@@ -25,10 +26,8 @@ async function NavBar() {
     >
       <div className={cn(pageContainer, "flex min-h-16 flex-wrap items-center gap-x-6 gap-y-3 py-2 md:min-h-[72px]")}>
         <Link href="/" className="flex items-center gap-3 text-brand-navy-dark">
-          {/* TODO: replace with the real PTK logo file */}
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-[10px] border-2 border-dashed border-brand-navy text-[10px] font-bold text-brand-navy md:size-11">
-            {t.brand.logoPlaceholder}
-          </span>
+          {/* Project logo (issue #53). alt="" because the name is written right next to it. */}
+          <Image src="/logo.svg" alt="" width={44} height={44} priority className="size-10 shrink-0 md:size-11" />
           <span className="flex flex-col leading-tight">
             <span className="text-base font-extrabold md:text-lg">{t.brand.name}</span>
             <span className="hidden text-sm text-brand-muted md:block">{t.brand.college}</span>
