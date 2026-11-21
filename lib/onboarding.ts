@@ -30,7 +30,7 @@ import type { Messages } from "@/lib/i18n";
  */
 
 export type OnboardingOption = {
-   /** Short, stable id: it goes in the chat's address (?needs=childcare). */
+   /** Short, stable id, saved and sent to the server (e.g. "childcare"). */
    id: string;
    icon: LucideIcon;
    /** Picking it clears the other answers in its step (e.g. "I'm not sure"). */
@@ -86,32 +86,65 @@ export function hasAnswers(answers: OnboardingAnswers) {
 }
 
 /**
- * Cleans answers from outside: the chat page's address (?needs=a,b) or the
- * body /api/chat receives. Keeps only ids that are in this list, so nothing
- * else (old links, typos, free text) ever reaches the AI. Never throws.
+ * Cleans answers from outside: what this tab saved, or the body /api/chat
+ * receives, e.g. { needs: ["esl"] }. Keeps only ids that are in this list, so
+ * nothing else (removed answers, typos, free text) ever reaches the AI.
+ * Never throws.
  */
 export function parseAnswers(input: unknown): OnboardingAnswers {
    const answers = emptyAnswers();
    if (!input || typeof input !== "object") return answers;
 
    for (const step of ONBOARDING_STEPS) {
-      const raw: unknown =
-         input instanceof URLSearchParams ? input.get(step.id) : (input as Record<string, unknown>)[step.id];
-      // From an address: "a,b". From JSON: ["a", "b"].
-      const ids = typeof raw === "string" ? raw.split(",") : Array.isArray(raw) ? raw : [];
+      const raw: unknown = (input as Record<string, unknown>)[step.id];
+      const ids = Array.isArray(raw) ? raw : [];
       const known = step.options.map((option) => option.id as OnboardingOptionId);
       answers[step.id] = known.filter((id) => ids.includes(id));
    }
    return answers;
 }
 
-/** Answers as the chat page's address query, e.g. { needs: "esl,transit" }. */
-export function answersToQuery(answers: OnboardingAnswers) {
-   const query: Record<string, string> = {};
-   for (const step of ONBOARDING_STEPS) {
-      if (answers[step.id].length > 0) query[step.id] = answers[step.id].join(",");
+/*
+ * Where the answers are kept: this browser tab's memory (sessionStorage).
+ * - Not in the page address, so they never show in browser history or in a
+ *   link the student shares.
+ * - Kept if the page is refreshed, and deleted when the tab is closed (good
+ *   for shared or library computers).
+ * - sessionStorage can be blocked (some private windows), so every read and
+ *   write is wrapped. If it fails, the chat simply shows the usual questions.
+ */
+const STORAGE_KEY = "ptk-onboarding";
+
+/** Saves the answers for this tab. */
+export function saveAnswers(answers: OnboardingAnswers) {
+   try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+   } catch {
+      // Not saved: the chat will show its usual starter questions.
    }
-   return query;
+}
+
+/**
+ * The saved answers as stored text (or null). Text, not an object, so React's
+ * useSyncExternalStore sees the same value on every read. Turn it into
+ * answers with parseSavedAnswers.
+ */
+export function readSavedAnswers(): string | null {
+   try {
+      return sessionStorage.getItem(STORAGE_KEY);
+   } catch {
+      return null;
+   }
+}
+
+/** The answers from readSavedAnswers' text (empty if missing or broken). */
+export function parseSavedAnswers(saved: string | null): OnboardingAnswers {
+   if (!saved) return emptyAnswers();
+   try {
+      return parseAnswers(JSON.parse(saved));
+   } catch {
+      return emptyAnswers();
+   }
 }
 
 /** An answer's words in the visitor's language. */

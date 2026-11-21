@@ -12,16 +12,19 @@ questions follow our rules (AGENTS.md and the MVP doc):
 - **Tap, don't type.** Every answer is a big picture card.
 - **Few words, few steps.** Two questions, and the second can be skipped.
 - **Nothing sensitive.** No names, IDs or immigration status. Never add those.
-- **Nothing saved.** The answers only travel to the chat in the page address.
+- **Nothing kept for long.** The answers stay in the browser tab's memory and
+  are deleted when the tab is closed (important on shared or library
+  computers). They never go in the page address, so they don't show in
+  browser history or in links people share.
 
 ## What happens
 
 1. **Step 1: "What do you need help with?"** Tap one or more (required, but
    "I'm not sure" counts). Picking "I'm not sure" clears the others.
 2. **Step 2: "Anything else about you?"** Optional: tap any, or Skip.
-3. **Start chatting** opens the chatbot with the answers in the address, for
-   example `/chatbot?needs=childcare,transit&about=parent`. The answers are
-   also printed in the browser console (`[onboarding] answers`).
+3. **Start chatting** keeps the answers in the tab's memory (`sessionStorage`)
+   and opens the chatbot. The answers are also printed in the browser console
+   (`[onboarding] answers`).
 4. **The chat page** shows "You picked: …" (with a Change link), and starter
    questions for each need picked.
 5. **Every question sent** includes the answers. The server keeps only answers
@@ -41,7 +44,8 @@ page, the chat and the server all read it, so nothing else needs changing.
    ```ts
    { id: "food", icon: Apple },
    ```
-   The `id` is short, lowercase, and goes in the address, so keep it stable.
+   The `id` is short and lowercase. It's what gets saved and sent to the
+   server, so keep it stable.
 2. In `lib/i18n/en.ts`, add its words under `onboarding.options`. A `question`
    is optional: it becomes a starter question in the chat (step 1 only).
    ```ts
@@ -54,7 +58,7 @@ page, the chat and the server all read it, so nothing else needs changing.
 files. The `id` can stay the same.
 
 **Remove an answer:** delete its line in `lib/onboarding.ts` and its words in
-the language files. Old links that still mention it are ignored safely.
+the language files. If a student still has it saved, it's ignored safely.
 
 **Make an answer clear the others** (like "I'm not sure"): add
 `exclusive: true` to it.
@@ -68,7 +72,7 @@ buttons adjust by themselves.
 
 | File | What it does |
 | :--- | :--- |
-| `lib/onboarding.ts` | The steps and answers, plus helpers (cleaning answers from the address or the browser, starter questions). |
+| `lib/onboarding.ts` | The steps and answers, plus helpers (saving and reading the answers in the tab, cleaning them, starter questions). |
 | `components/onboarding/onboarding-wizard.tsx` | The questions, one step at a time. |
 | `components/onboarding/step-indicator.tsx` | "Step 1 of 2" and its progress bar. |
 | `app/[locale]/(frontend)/start/page.tsx` | The `/start` page. |
@@ -83,5 +87,10 @@ buttons adjust by themselves.
    **Start chatting**.
 4. The chat shows "You picked: Child care, Bus pass, I'm a parent" and two
    matching questions. The browser console shows `[onboarding] answers`.
-5. Try it at `/es/start`, on a phone-sized window, and with the keyboard only
+5. Refresh the chat: your picks are still there. Close the tab and open the
+   chatbot again: they're gone.
+6. Try it at `/es/start`, on a phone-sized window, and with the keyboard only
    (Tab to a card, Space to pick it).
+
+Good to know: if the browser blocks storage (some private windows), onboarding
+still works, but the chat shows its usual questions instead of matching ones.

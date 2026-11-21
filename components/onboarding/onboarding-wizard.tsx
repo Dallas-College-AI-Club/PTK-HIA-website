@@ -8,10 +8,10 @@ import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { useRouter } from "@/i18n/navigation"
 import { getMessages } from "@/lib/i18n"
 import {
-  answersToQuery,
   emptyAnswers,
   ONBOARDING_STEPS,
   optionText,
+  saveAnswers,
   type OnboardingAnswers,
   type OnboardingOptionId,
 } from "@/lib/onboarding"
@@ -23,12 +23,12 @@ import { cn } from "@/lib/utils"
  *
  * - The steps and answers come from lib/onboarding.ts, so adding or changing
  *   an answer never needs changes here.
- * - Everything is kept in this component's state (useState). Nothing is saved.
+ * - The answers are kept in this component's state (useState) while the
+ *   student answers.
  * - Each answer is a real checkbox (keyboard and screen reader friendly),
  *   drawn as a big picture card.
- * - "Start chatting" opens the chatbot with the answers in its address, e.g.
- *   /chatbot?needs=childcare,transit&about=parent. Only these short ids, never
- *   anything personal.
+ * - "Start chatting" keeps the answers in this tab's memory (sessionStorage,
+ *   see lib/onboarding.ts) and opens the chatbot, which reads them there.
  */
 function OnboardingWizard() {
   const t = getMessages(useLocale())
@@ -79,9 +79,10 @@ function OnboardingWizard() {
 
   function finish(finalAnswers: OnboardingAnswers) {
     // Placeholder hand-off from the issue (AC 6): shows the answers in the
-    // browser console. The chat page receives them through the address.
+    // browser console. The chat page reads them from this tab's memory.
     console.log("[onboarding] answers", finalAnswers)
-    router.push({ pathname: sitePages.askQuestion.href, query: answersToQuery(finalAnswers) })
+    saveAnswers(finalAnswers)
+    router.push(sitePages.askQuestion.href)
   }
 
   function next(event: React.FormEvent<HTMLFormElement>) {

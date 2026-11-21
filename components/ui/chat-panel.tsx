@@ -5,18 +5,21 @@ import { DefaultChatTransport } from "ai"
 import { ArrowLeft, ArrowRight, ArrowUp, ChevronRight, FileText, MessageCircle, RotateCcw, ThumbsDown, ThumbsUp, Users } from "lucide-react"
 import { useLocale } from "next-intl"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useId, useRef, useState } from "react"
+import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 
 import { getMessageText, getSources, isRateLimitError, MAX_HISTORY_MESSAGES, MAX_QUESTION_LENGTH } from "@/lib/chatbot"
 import { getMessages } from "@/lib/i18n"
-import { answersToQuery, hasAnswers, ONBOARDING_STEPS, optionText, parseAnswers, starterQuestionsFor } from "@/lib/onboarding"
+import { hasAnswers, ONBOARDING_STEPS, optionText, parseSavedAnswers, readSavedAnswers, starterQuestionsFor } from "@/lib/onboarding"
 // `import type` is removed at build time, so this server-only file never reaches the browser.
 import type { ChatbotMessage } from "@/lib/server/tools/registry"
 import { sitePages } from "@/lib/site-pages"
 import { cn } from "@/lib/utils"
 
 type Feedback = "yes" | "no"
+
+/** The saved answers only change on /start, never while this page is open. */
+const subscribeToNothing = () => () => {}
 
 /**
  * Sends questions to /api/chat. Only the last few messages go with each
@@ -41,10 +44,11 @@ const transport = new DefaultChatTransport<ChatbotMessage>({
  * 4. Under the answer: its sources (from the search, not the AI's text), a
  *    "Was this helpful?" question and a link to talk to a real person.
  *
- * Coming from /start (issue #49), the address carries the student's answers
- * (?needs=childcare&about=parent). The page then shows starter questions for
- * those answers and sends the answers with every question, so the AI can
- * tailor its replies. The server only accepts answers from lib/onboarding.ts.
+ * After /start (issue #49), the student's answers are in this tab's memory
+ * (sessionStorage, see lib/onboarding.ts). The page then shows starter
+ * questions for those answers and sends the answers with every question, so
+ * the AI can tailor its replies. The server only accepts answers from
+ * lib/onboarding.ts.
  */
 function ChatPanel() {
   const locale = useLocale()
@@ -60,8 +64,11 @@ function ChatPanel() {
 
   const { messages, sendMessage, regenerate, status, error, clearError } = useChat<ChatbotMessage>({ transport })
   const [question, setQuestion] = useState("")
-  // The /start answers, read once from the address (empty when there are none).
-  const [onboarding] = useState(() => parseAnswers(new URLSearchParams(searchParams.toString())))
+  // The /start answers from this tab's memory (empty when there are none).
+  // useSyncExternalStore reads sessionStorage safely: the server (which has no
+  // sessionStorage) uses the third function, so there's no hydration error.
+  const savedAnswers = useSyncExternalStore(subscribeToNothing, readSavedAnswers, () => null)
+  const onboarding = useMemo(() => parseSavedAnswers(savedAnswers), [savedAnswers])
   const tailoredStarters = starterQuestionsFor(pageText, onboarding)
   const starters = tailoredStarters.length > 0 ? tailoredStarters : t.starterQuestions
   const [feedback, setFeedback] = useState<Record<string, Feedback>>({})
@@ -71,17 +78,23 @@ function ChatPanel() {
   // "Looking for an answer…" until the first words of the answer arrive.
   const thinking = busy && !(lastMessage?.role === "assistant" && getMessageText(lastMessage))
 
+  // Read the answers when sending, not from the first render: a question from
+  // Home (?q=) is sent before the page has read the tab's memory.
+  function currentAnswers() {
+    return parseSavedAnswers(readSavedAnswers())
+  }
+
   function ask(text: string) {
     const q = text.trim().slice(0, MAX_QUESTION_LENGTH)
     if (!q || busy) return
     if (error) clearError()
     setQuestion("")
-    void sendMessage({ text: q }, { body: { locale, profile: onboarding } })
+    void sendMessage({ text: q }, { body: { locale, profile: currentAnswers() } })
   }
 
   function tryAgain() {
     clearError()
-    void regenerate({ body: { locale, profile: onboarding } })
+    void regenerate({ body: { locale, profile: currentAnswers() } })
   }
 
   // A question sent from the Home page (?q=...) is asked once, then removed
@@ -93,8 +106,7 @@ function ChatPanel() {
     if (!q || askedFromUrl.current) return
     const timer = setTimeout(() => {
       askedFromUrl.current = true
-      // Keep the /start answers in the address, so a refresh still has them.
-      router.replace({ pathname, query: answersToQuery(onboarding) }, { scroll: false })
+      router.replace(pathname, { scroll: false })
       ask(q)
     }, 0)
     return () => clearTimeout(timer)
