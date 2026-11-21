@@ -12,6 +12,7 @@ import { z } from "zod";
 import { MAX_SYSTEM_PROMPT_LENGTH } from "@/lib/chat-limits";
 import { MAX_HISTORY_MESSAGES, MAX_QUESTION_LENGTH } from "@/lib/chatbot";
 import { devToolsEnabled } from "@/lib/dev-tools";
+import { parseAnswers } from "@/lib/onboarding";
 import { chatbotInstructions } from "@/lib/server/chatbot-prompt";
 import { checkRateLimit, getVisitorId } from "@/lib/server/rate-limit";
 import { TOOL_REGISTRY, type ChatbotMessage } from "@/lib/server/tools/registry";
@@ -30,6 +31,9 @@ const requestSchema = z.object({
       .min(1),
    // The website's language, e.g. "es" (live chatbot).
    locale: z.string().max(10).optional(),
+   // The /start answers (issue #49), e.g. { needs: ["childcare"] }. Cleaned by
+   // parseAnswers below: only answers from lib/onboarding.ts are kept.
+   profile: z.unknown().optional(),
    // Only from /dev/chat-test, and only used where dev tools are on.
    devTest: z.boolean().optional(),
    systemPrompt: z.string().optional(),
@@ -60,7 +64,7 @@ export async function POST(req: Request) {
    if (!request.success) {
       return textResponse(400, "The request is not in the expected format.");
    }
-   const { locale, devTest, systemPrompt, useTools } = request.data;
+   const { locale, profile, devTest, systemPrompt, useTools } = request.data;
 
    const devTools = devToolsEnabled();
    const isDevTest = devTools && devTest === true;
@@ -112,7 +116,7 @@ export async function POST(req: Request) {
    } else {
       // Live chatbot: our rules (the browser can't change them), and two steps.
       settings = {
-         instructions: chatbotInstructions(locale ?? "en"),
+         instructions: chatbotInstructions(locale ?? "en", parseAnswers(profile)),
          tools: TOOL_REGISTRY,
          // Step 1: the AI MUST search (small models sometimes skip tools).
          // Step 2: it MUST answer from the results (no second search).
