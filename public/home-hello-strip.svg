@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 110">
+  <rect width="360" height="110" fill="#0b3b8c"/>
+  <rect x="55" y="10" width="78" height="34" rx="12" fill="#ffffff"/><path d="M67 43 L61.6 53.52 L79 43Z" fill="#ffffff"/>
+  <text x="94" y="32.4" text-anchor="middle" font-size="15" font-weight="700" fill="#0b3b8c" lang="en" font-family="'Noto Sans','Segoe UI',Helvetica,Arial,sans-serif">Hello</text><rect x="141" y="10" width="70" height="34" rx="12" fill="#ffc629"/><path d="M153 43 L147.6 53.52 L165 43Z" fill="#ffc629"/>
+  <text x="176" y="32.4" text-anchor="middle" font-size="15" font-weight="700" fill="#082b66" lang="es" font-family="'Noto Sans','Segoe UI',Helvetica,Arial,sans-serif">Hola</text><rect x="219" y="10" width="86" height="34" rx="12" fill="#ffffff"/><path d="M231 43 L225.6 53.52 L243 43Z" fill="#ffffff"/>
+  <text x="262" y="33.12" text-anchor="middle" font-size="17" font-weight="700" fill="#0b3b8c" lang="ar" direction="rtl" font-family="'Noto Sans Arabic','Segoe UI','Geeza Pro',Arial,sans-serif">مرحبا</text>
+  <rect x="53" y="58" width="110" height="34" rx="12" fill="#ffc629"/><path d="M65 91 L59.6 101.52 L77 91Z" fill="#ffc629"/>
+  <text x="108" y="80.04" text-anchor="middle" font-size="14" font-weight="700" fill="#082b66" lang="my" font-family="'Noto Sans Myanmar','Myanmar Text','Myanmar Sangam MN',Padauk,sans-serif">မင်္ဂလာပါ</text><rect x="171" y="58" width="84" height="34" rx="12" fill="#ffffff"/><path d="M183 91 L177.6 101.52 L195 91Z" fill="#ffffff"/>
+  <text x="213" y="80.4" text-anchor="middle" font-size="15" font-weight="700" fill="#0b3b8c" lang="sw" font-family="'Noto Sans','Segoe UI',Helvetica,Arial,sans-serif">Habari</text><rect x="263" y="58" width="44" height="34" rx="12" fill="#ffc629"/>
+  <path d="M275 91 L269.6 101.52 L287 91Z" fill="#ffc629"/>
+  <circle cx="275.32" cy="75" r="3.4000000000000004" fill="#0b3b8c"/><circle cx="285" cy="75" r="3.4000000000000004" fill="#0b3b8c"/><circle cx="294.68" cy="75" r="3.4000000000000004" fill="#0b3b8c"/>
+</svg>

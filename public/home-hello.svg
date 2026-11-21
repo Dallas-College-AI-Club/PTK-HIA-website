@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 440">
+  <rect width="520" height="440" fill="#0b3b8c"/>
+  <circle cx="260" cy="250" r="190" fill="#082b66" opacity="0.6"/>
+  <rect x="40" y="52" width="150" height="56" rx="18" fill="#ffffff"/><path d="M58 107 L49.9 123.68 L76 107Z" fill="#ffffff"/>
+  <text x="115" y="89.36" text-anchor="middle" font-size="26" font-weight="700" fill="#0b3b8c" lang="en" font-family="'Noto Sans','Segoe UI',Helvetica,Arial,sans-serif">Hello</text>
+  <rect x="318" y="70" width="150" height="56" rx="18" fill="#ffc629"/><path d="M450 125 L458.1 141.68 L432 125Z" fill="#ffc629"/>
+  <text x="393" y="107.36" text-anchor="middle" font-size="26" font-weight="700" fill="#082b66" lang="es" font-family="'Noto Sans','Segoe UI',Helvetica,Arial,sans-serif">Hola</text>
+  <rect x="160" y="150" width="200" height="56" rx="18" fill="#ffffff"/><path d="M178 205 L169.9 221.68 L196 205Z" fill="#ffffff"/>
+  <text x="260" y="188.8" text-anchor="middle" font-size="30" font-weight="700" fill="#0b3b8c" lang="ar" direction="rtl" font-family="'Noto Sans Arabic','Segoe UI','Geeza Pro',Arial,sans-serif">مرحبا</text>
+  <rect x="30" y="248" width="210" height="56" rx="18" fill="#ffc629"/><path d="M48 303 L39.9 319.68 L66 303Z" fill="#ffc629"/>
+  <text x="135" y="284.64" text-anchor="middle" font-size="24" font-weight="700" fill="#082b66" lang="my" font-family="'Noto Sans Myanmar','Myanmar Text','Myanmar Sangam MN',Padauk,sans-serif">မင်္ဂလာပါ</text>
+  <rect x="282" y="236" width="190" height="56" rx="18" fill="#ffffff"/><path d="M454 291 L462.1 307.68 L436 291Z" fill="#ffffff"/>
+  <text x="377" y="273.36" text-anchor="middle" font-size="26" font-weight="700" fill="#0b3b8c" lang="sw" font-family="'Noto Sans','Segoe UI',Helvetica,Arial,sans-serif">Habari</text>
+  <rect x="232" y="336" width="56" height="40" rx="14" fill="#ffc629"/>
+  <path d="M246 375 L239.7 387.2 L260 375Z" fill="#ffc629"/>
+  <circle cx="247.68" cy="356" r="4" fill="#0b3b8c"/><circle cx="260" cy="356" r="4" fill="#0b3b8c"/><circle cx="272.32" cy="356" r="4" fill="#0b3b8c"/>
+</svg>

@@ -10,7 +10,6 @@ export const es: Messages = {
    brand: {
       name: "PTK × AI Club",
       college: "Dallas College",
-      logoPlaceholder: "Logo",
    },
    pages: {
       home: "Inicio",
@@ -21,7 +20,6 @@ export const es: Messages = {
       askQuestion: "Hacer una pregunta",
    },
    layout: {
-      textSize: "Tamaño del texto",
       backHome: "Inicio",
       stillHaveQuestion: "¿Todavía tiene una pregunta?",
       stillHaveQuestionBody: "Pregunte en su idioma. Las respuestas vienen de recursos reunidos por PTK.",
@@ -168,8 +166,7 @@ export const es: Messages = {
       ],
       aiNotice:
          "Las respuestas vienen de recursos reunidos por PTK. Confirme siempre los detalles importantes con Dallas College.",
-      illustrationAlt: "Ilustración de ejemplo: familias diversas caminando al campus",
-      illustrationPlaceholder: "Ilustración de ejemplo",
+      illustrationAlt: "Globos de diálogo que dicen hola en inglés, español, árabe, birmano y suajili",
       whatDoYouNeed: "¿Qué necesita?",
       cards: {
          learnEnglish: { title: "Aprender inglés (ESL)", description: "Clases de inglés de noche y los fines de semana" },
@@ -183,6 +180,47 @@ export const es: Messages = {
          busPass: { label: "Pase de autobús", question: "¿Cómo obtengo el pase de autobús gratis para estudiantes?" },
          counseling: { label: "Consejería", question: "¿Cómo hago una cita de consejería?" },
       },
+   },
+   privacy: {
+      title: "Privacidad",
+      description: "Cómo este sitio protege su privacidad: qué pedimos, qué nunca pedimos y adónde va su información.",
+      intro: [
+         "Muchas personas que usan este sitio están aprendiendo inglés, son nuevas en EE. UU. o crían a su familia mientras estudian. Usted debe poder recibir ayuda sin renunciar a su privacidad.",
+         "Por eso hicimos este sitio para pedir lo menos posible y decirle claramente qué pasa con lo que comparte.",
+      ],
+      sections: [
+         {
+            title: "Nuestro enfoque sobre la privacidad",
+            items: [
+               "Solo pedimos lo que necesitamos para ayudarle.",
+               "Nunca le preguntamos su estado migratorio.",
+               "Usted decide qué compartir. Cada formulario y pregunta de este sitio es opcional.",
+               "No mostramos anuncios, no usamos herramientas de rastreo y nunca vendemos su información.",
+            ],
+         },
+         {
+            title: "Si usa Hablar con alguien",
+            items: [
+               "El formulario pide su nombre, un correo o teléfono, su idioma preferido, qué le describe, con qué necesita ayuda y cualquier nota que quiera agregar.",
+               "Se envía por correo al equipo de PTK y a los Success Coaches de Dallas College, para que una persona real le contacte. Solo se usa para ayudarle.",
+            ],
+         },
+         {
+            title: "Si usa el chatbot",
+            items: [
+               "Para escribir una respuesta, sus preguntas se envían a un servicio de IA (a través de OpenRouter). Por favor, no escriba datos privados, como su número de estudiante o su dirección.",
+               "Si respondió las preguntas de “¿No sabe por dónde empezar?”, esas respuestas también se envían, para que la respuesta sea más útil para usted.",
+               "No guardamos su conversación. Desaparece al cerrar la página. El servicio de IA puede guardar los mensajes según sus propias reglas.",
+            ],
+         },
+         {
+            title: "Otros sitios web",
+            items: [
+               "Este es un proyecto estudiantil de Phi Theta Kappa (PTK) y el AI Club de Dallas College. No es un sitio web oficial de Dallas College.",
+               "Cuando siga un enlace a Dallas College o a Instagram, se aplican sus propias reglas de privacidad.",
+            ],
+         },
+      ],
    },
    chatbot: {
       title: "Hacer una pregunta",

@@ -1,4 +1,4 @@
-import { ArrowRight, Baby, Bus, ChevronRight, Heart, ImageIcon, type LucideIcon } from "lucide-react";
+import { ArrowRight, Baby, Bus, ChevronRight, Heart, type LucideIcon } from "lucide-react";
 import { getLocale } from "next-intl/server";
 
 import { AskBox } from "@/components/ui/ask-box";
@@ -34,15 +34,19 @@ export default async function Home() {
                   <AskBox />
                </div>
 
-               {/* TODO: replace with the illustration file from the design team */}
-               <div
-                  role="img"
-                  aria-label={t.home.illustrationAlt}
-                  className="flex h-[110px] shrink-0 items-center justify-center gap-2.5 rounded-[18px] border-2 border-dashed border-brand-placeholder bg-white p-4 font-bold text-brand-muted md:h-[440px] md:w-[520px] md:flex-col md:rounded-3xl"
-               >
-                  <ImageIcon aria-hidden="true" className="size-8 md:size-12" strokeWidth={1.5} />
-                  {t.home.illustrationPlaceholder}
-               </div>
+               {/* "Hello" in our 5 languages (issue #53). Phones get a short, wide
+                   version (two rows of bubbles); tablets and up get the square one.
+                   The files are in public/ (see docs/SITE_ARTWORK.md). */}
+               <picture className="flex h-[110px] shrink-0 overflow-hidden rounded-[18px] bg-brand-navy md:h-[440px] md:w-[520px] md:rounded-3xl">
+                  <source media="(min-width: 768px)" srcSet="/home-hello.svg" />
+                  <img
+                     src="/home-hello-strip.svg"
+                     alt={t.home.illustrationAlt}
+                     width={360}
+                     height={110}
+                     className="size-full object-contain"
+                  />
+               </picture>
             </div>
          </section>
 

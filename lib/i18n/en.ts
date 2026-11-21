@@ -9,7 +9,6 @@ export const en = {
    brand: {
       name: "PTK × AI Club",
       college: "Dallas College",
-      logoPlaceholder: "Logo",
    },
    pages: {
       home: "Home",
@@ -20,7 +19,6 @@ export const en = {
       askQuestion: "Ask a Question",
    },
    layout: {
-      textSize: "Text size",
       backHome: "Home",
       stillHaveQuestion: "Still have a question?",
       stillHaveQuestionBody: "Ask in your language. Answers come from resources collected by PTK.",
@@ -168,8 +166,7 @@ export const en = {
       ],
       aiNotice:
          "Answers come from resources collected by PTK. Always confirm important details with Dallas College.",
-      illustrationAlt: "Illustration placeholder: diverse families walking to campus",
-      illustrationPlaceholder: "Illustration placeholder",
+      illustrationAlt: "Speech bubbles saying hello in English, Spanish, Arabic, Burmese and Swahili",
       whatDoYouNeed: "What do you need?",
       cards: {
          learnEnglish: { title: "Learn English (ESL)", description: "English classes at night and on weekends" },
@@ -183,6 +180,47 @@ export const en = {
          busPass: { label: "Bus pass", question: "How do I get the free student bus pass?" },
          counseling: { label: "Counseling", question: "How do I make a counseling appointment?" },
       },
+   },
+   privacy: {
+      title: "Privacy",
+      description: "How this site protects your privacy: what we ask for, what we never ask for, and where your information goes.",
+      intro: [
+         "Many people who use this site are learning English, are new to the U.S., or are raising a family while going to school. You should be able to get help without giving up your privacy.",
+         "So we built this site to ask for as little as possible, and to tell you plainly what happens to anything you share.",
+      ],
+      sections: [
+         {
+            title: "Our approach to privacy",
+            items: [
+               "We only ask for what we need to help you.",
+               "We never ask about your immigration status.",
+               "You choose what to share. Every form and question on this site is optional to use.",
+               "We don't show ads, we don't use tracking tools, and we never sell your information.",
+            ],
+         },
+         {
+            title: "If you use Talk to Someone",
+            items: [
+               "The form asks for your name, an email or phone number, your preferred language, which describes you, what you need help with, and any notes you want to add.",
+               "It is emailed to the PTK team and Dallas College Success Coaches, so a real person can contact you. It is only used to help you.",
+            ],
+         },
+         {
+            title: "If you use the chatbot",
+            items: [
+               "To write an answer, your questions are sent to an AI service (through OpenRouter). Please don't type private details, like your student ID or address.",
+               "If you answered the “Not sure where to start?” questions, those answers are sent too, so the answer fits you better.",
+               "We don't save your conversation. It's gone when you close the page. The AI service may keep messages under its own rules.",
+            ],
+         },
+         {
+            title: "Other websites",
+            items: [
+               "This is a student project by Phi Theta Kappa (PTK) and the AI Club at Dallas College. It is not an official Dallas College website.",
+               "When you follow a link to Dallas College or Instagram, their own privacy rules apply.",
+            ],
+         },
+      ],
    },
    chatbot: {
       title: "Ask a Question",

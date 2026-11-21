@@ -1,15 +1,17 @@
 import { Shield } from "lucide-react"
+import Image from "next/image"
 import { getLocale } from "next-intl/server"
 import type { ReactNode } from "react"
 
+import { Link } from "@/i18n/navigation"
 import { getMessages } from "@/lib/i18n"
 import { pageContainer } from "@/lib/layout"
 import { cn } from "@/lib/utils"
 
-// TODO: set to the Dallas College PTK Instagram profile URL.
-const PTK_INSTAGRAM_URL: string | null = null
-// TODO: set once the privacy page/section is decided.
-const PRIVACY_URL: string | null = null
+/** The Dallas College PTK chapter's Instagram (AGENTS.md: footer requirement). */
+const PTK_INSTAGRAM_URL: string | null = "https://www.instagram.com/ptkaax/"
+/** Our privacy page (issue #53). Links inside the site keep the visitor's language. */
+const PRIVACY_URL: string | null = "/privacy"
 
 /** Footer, repeated on every page. */
 async function Footer() {
@@ -20,10 +22,8 @@ async function Footer() {
       <div className={cn(pageContainer, "flex flex-col gap-4 py-6 text-center md:gap-5 md:py-9 md:text-left")}>
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
           <div className="flex items-center gap-3.5">
-            {/* TODO: replace with the real PTK logo file */}
-            <span className="hidden size-11 items-center justify-center rounded-[10px] border-2 border-dashed border-white text-[11px] font-bold md:flex">
-              {t.brand.logoPlaceholder}
-            </span>
+            {/* Gold version of the logo, so it shows up on navy. Decorative: the text says who we are. */}
+            <Image src="/logo-on-navy.svg" alt="" width={44} height={44} className="hidden size-11 shrink-0 md:block" />
             <p className="text-[17px] font-bold md:text-lg">{t.layout.footerPoweredBy}</p>
           </div>
 
@@ -74,14 +74,19 @@ function FooterLink({
     )
   }
 
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cn(footerLinkClass, "hover:bg-white/10")}>
+        {children}
+      </a>
+    )
+  }
+
+  // Our own pages: Link keeps the language (/privacy becomes /es/privacy on Spanish pages).
   return (
-    <a
-      href={href}
-      className={cn(footerLinkClass, "hover:bg-white/10")}
-      {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-    >
+    <Link href={href} className={cn(footerLinkClass, "hover:bg-white/10")}>
       {children}
-    </a>
+    </Link>
   )
 }
 
