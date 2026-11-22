@@ -37,7 +37,7 @@ Expect Python 3.13.x and `Imports OK`.
 ## Files and folders
 
 - `ptk_data/`: Python package for resource preparation and imports.
-- `ptk_data/models/`: Original Success Coach SQLAlchemy models, pending PTK adaptation.
+- `ptk_data/models/`: Shared SQLAlchemy base, PTK resource models, and copied Success Coach models.
 - `ptk_data/pipeline/`: Data ingestion, chunking, and embedding pipelines:
   - `convert_to_markdown.py`: Scrapes and converts Dallas College resource pages and PDFs into clean Markdown (#10).
   - `chunk_resources.py`: Extracts and chunks Markdown files into structured JSON records with stable `doc_id` and SHA-256 hashes (#39).
@@ -52,8 +52,7 @@ Expect Python 3.13.x and `Imports OK`.
 
 The files in `ptk_data/models/` are copied from the [Success Coach models folder](https://github.com/Dallas-College-AI-Club/success-coach-chatbot/tree/180e4a43dbcf847ddd7db9341520f4919b3c75e9/apps/data/dallasai/models).
 The original `KnowledgeEntry` model uses PostgreSQL-specific types and the
-Python `pgvector` package, installed by `uv sync`. The PTK model adaptation is
-tracked in #15.
+Python `pgvector` package, installed by `uv sync`.
 
 To check the copied models, run this command from `apps/data`:
 
@@ -63,6 +62,50 @@ uv run python -c "from ptk_data.models import ChatSession, KnowledgeEntry; print
 
 In VS Code, use **Python: Select Interpreter** and choose
 `apps/data/.venv/bin/python`.
+
+## PTK resource schema
+
+`Resource` describes one source document. `ResourceChunk` holds a section of
+that document and the embedding used to retrieve it. To find the citation for
+a retrieved chunk, read `chunk.resource.source_url`.
+
+| `resource` field | Meaning |
+|---|---|
+| `id` | Database-generated primary key. |
+| `doc_id` | Unique identifier from the export, based on the document's relative path. Renaming the file can change this identifier. |
+| `title` | Required title from the export's chunk records. |
+| `source_url` | Required citation URL from the chunk records. Several documents can cite the same URL. |
+| `content_hash` | The manifest's `source_hash`, used to detect changes to the document. |
+| `created_at`, `updated_at` | Timezone-aware timestamps set on insert. SQLAlchemy refreshes `updated_at` when it updates the resource row. |
+
+| `resource_chunk` field | Meaning |
+|---|---|
+| `id` | Database-generated primary key. |
+| `resource_id` | Required, indexed foreign key to `resource.id`. |
+| `chunk_index` | Zero-based position from the export. Each position can appear once per resource. |
+| `content` | The export's `chunk_text`. Empty or whitespace-only text is rejected. |
+| `embedding` | Required 384-value vector from the multilingual E5 export, stored as PostgreSQL `HALFVEC(384)`. |
+| `created_at` | Timezone-aware creation timestamp set by the database. |
+
+Join the export's `manifest` and `chunks` by `doc_id`. A resource's chunks load
+in index order. Deleting a resource deletes all its chunks through the database
+foreign key. Removing a chunk from the resource's SQLAlchemy collection also
+deletes that chunk when the session flushes.
+
+The model imports only register table definitions. Schema initialization in
+#16 needs the PostgreSQL `vector` extension and should pass only
+`Resource.__table__` and `ResourceChunk.__table__` to the shared metadata,
+which also holds the Success Coach tables.
+
+Run the focused schema tests from `apps/data` without credentials.
+
+```bash
+uv run python -m unittest discover -s tests -v
+```
+
+The tests use an in-memory SQLite database for relationships and constraints
+and compile the table definitions with the PostgreSQL dialect to check the
+vector type and timezone-aware timestamps.
 
 ## Markdown Chunking Pipeline
 
@@ -88,7 +131,9 @@ uv run pytest
 
 ## Importer Reconciliation Guide
 
-When importing exported chunks into PostgreSQL (`KnowledgeEntry` or #15 `Resource` / `ResourceChunk` models), follow this reconciliation strategy:
+Use this reconciliation strategy when importing exported chunks into PostgreSQL.
+The SQL examples below show the copied `KnowledgeEntry` schema. For the PTK models,
+use the [PTK resource schema](#ptk-resource-schema) and the import contract in #47.
 
 ### 1. Document Identity (`doc_id`) & Versioning
 Each document is assigned a stable `doc_id` derived from its POSIX path relative to the input folder (e.g., `esl/night-classes`). Even if two files share the same basename in different subdirectories, their `doc_id` values remain unique and stable across runs.
@@ -135,7 +180,7 @@ UniqueConstraint("source_url", "chunk_index", name="uq_knowledge_entry_source_ch
 ```
 * **Constraint Reality:** PostgreSQL enforces table constraints on table columns (`source_url`, `chunk_index`). Adding `doc_id` into the JSONB `metadata` column **does not alter or satisfy** this constraint.
 * **Collision Risk:** If two distinct documents share the same real Dallas College citation URL (e.g., `esl/night.md` and `esl/weekend.md` both citing `https://www.dallascollege.edu/study/esl/`), both will produce chunks at `chunk_index = 0`. Inserting the second document will trigger a database `UniqueViolation`.
-* **Separate Task Scope (#15):** Schema alignment must be handled explicitly in Issue #15 by scoping chunks to document identity (`Resource(id, doc_id, ...)` $\rightarrow$ `ResourceChunk(resource_id, chunk_index, ...)` with `UniqueConstraint("resource_id", "chunk_index")`).
+* **PTK schema:** `ResourceChunk` scopes chunk positions to the resource using `UniqueConstraint("resource_id", "chunk_index")`.
 
 
 
@@ -163,7 +208,7 @@ uv run python -m ptk_data.pipeline.embed_chunks -i "Resources/Json/extracted_chu
 ### Shared Multilingual Model Contract (Issue #45)
 
 * **Model:** `intfloat/multilingual-e5-small` / `Xenova/multilingual-e5-small`
-* **Output Dimensions:** `384` floats (aligns with `HALFVEC(384)` in `knowledge_entry.py`)
+* **Output Dimensions:** `384` floats (aligns with `ResourceChunk.embedding`, stored as `HALFVEC(384)`)
 * **Normalization:** Unit L2 norm (`norm = 1.0`, enabling fast cosine similarity via dot product)
 * **Ingestion Prefix:** Chunks must be prefixed with `passage: ` before embedding:
   ```python
