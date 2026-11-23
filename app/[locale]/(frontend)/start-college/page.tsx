@@ -1,4 +1,5 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
+import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
@@ -8,6 +9,15 @@ import { sitePages } from "@/lib/site-pages";
 
 // For now this page sends visitors to Dallas College's own registration page.
 const REGISTRATION_URL = "https://www.dallascollege.edu/admissions/registration/";
+
+export async function generateMetadata(): Promise<Metadata> {
+   const t = getMessages(await getLocale());
+
+   return {
+      title: `${t.pages.startCollege} | ${t.brand.name}`,
+      description: t.startCollege.intro,
+   };
+}
 
 export default async function StartCollege() {
    const t = getMessages(await getLocale());
@@ -35,7 +45,7 @@ export default async function StartCollege() {
                className="inline-flex items-center gap-1 font-bold text-brand-navy underline"
             >
                {t.pages.talkToSomeone}
-               <ArrowRight aria-hidden="true" className="size-4" />
+               <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
             </Link>
          </p>
       </div>

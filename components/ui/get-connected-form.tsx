@@ -14,7 +14,7 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea"
 import { helpTopics, situations } from "@/lib/contact-request"
 import { getMessages } from "@/lib/i18n"
-import { languages } from "@/lib/i18n/languages"
+import { isLanguageCode, languages } from "@/lib/i18n/languages"
 
 const initialState: ContactFormState = { status: "idle" }
 
@@ -31,8 +31,11 @@ const initialState: ContactFormState = { status: "idle" }
  * 4. Design the thank-you state (mockup "Request sent" page).
  */
 function GetConnectedForm() {
-  const t = getMessages(useLocale()).getConnected
+  const locale = useLocale()
+  const t = getMessages(locale).getConnected
   const { current } = useLanguage()
+  // Default to the language this page is in (e.g. Arabic on /ar), issue #55.
+  const pageLanguage = isLanguageCode(locale) ? locale : current
   const [state, formAction, pending] = useActionState(submitContactRequest, initialState)
 
   if (state.status === "sent") {
@@ -55,7 +58,8 @@ function GetConnectedForm() {
       <FieldGroup>
         <Field data-invalid={!!errorFor("fullName")}>
           <FieldLabel htmlFor="fullName">{t.fields.fullName}</FieldLabel>
-          <Input id="fullName" name="fullName" autoComplete="name" required
+          {/* dir="auto": a name typed in Arabic reads right to left, one typed in English left to right. */}
+          <Input id="fullName" name="fullName" autoComplete="name" required dir="auto"
             defaultValue={value("fullName")} aria-invalid={!!errorFor("fullName")} />
           <FieldError>{errorFor("fullName")}</FieldError>
         </Field>
@@ -63,20 +67,23 @@ function GetConnectedForm() {
         <FieldDescription>{t.fields.contactHint}</FieldDescription>
         <Field data-invalid={!!errorFor("email")}>
           <FieldLabel htmlFor="email">{t.fields.email}</FieldLabel>
-          <Input id="email" name="email" type="email" autoComplete="email"
+          {/* Email addresses and phone numbers are always written left to right,
+              even on Arabic pages. rtl:text-right keeps them lined up with the other fields. */}
+          <Input id="email" name="email" type="email" autoComplete="email" dir="ltr" className="rtl:text-right"
             defaultValue={value("email")} aria-invalid={!!errorFor("email")} />
           <FieldError>{errorFor("email")}</FieldError>
         </Field>
         <Field>
           <FieldLabel htmlFor="phone">{t.fields.phone}</FieldLabel>
-          <Input id="phone" name="phone" type="tel" autoComplete="tel" defaultValue={value("phone")} />
+          <Input id="phone" name="phone" type="tel" autoComplete="tel" dir="ltr" className="rtl:text-right"
+            defaultValue={value("phone")} />
         </Field>
 
         <Field data-invalid={!!errorFor("preferredLanguage")}>
           <FieldLabel htmlFor="preferredLanguage">{t.fields.preferredLanguage}</FieldLabel>
           {/* Starts on the language the visitor picked in the top bar. */}
           <NativeSelect id="preferredLanguage" name="preferredLanguage" className="w-full"
-            defaultValue={value("preferredLanguage") ?? current}>
+            defaultValue={value("preferredLanguage") ?? pageLanguage}>
             {languages.map((language) => (
               <NativeSelectOption key={language.code} value={language.code} lang={language.code}>
                 {language.nativeName}
@@ -112,7 +119,7 @@ function GetConnectedForm() {
 
         <Field>
           <FieldLabel htmlFor="notes">{t.fields.notes}</FieldLabel>
-          <Textarea id="notes" name="notes" rows={4} defaultValue={value("notes")} />
+          <Textarea id="notes" name="notes" rows={4} dir="auto" defaultValue={value("notes")} />
         </Field>
 
         <FieldError>{errorFor("form")}</FieldError>

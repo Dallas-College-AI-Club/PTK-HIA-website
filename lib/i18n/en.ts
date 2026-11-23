@@ -9,6 +9,8 @@ export const en = {
    brand: {
       name: "PTK × AI Club",
       college: "Dallas College",
+      // The site's description for search results and link previews.
+      description: "Find ESL classes, start college, pay for college, and connect with a real person at Dallas College, in your language.",
    },
    pages: {
       home: "Home",
@@ -169,8 +171,6 @@ export const en = {
          "Answers come from resources collected by PTK. Always confirm important details with Dallas College.",
       illustrationAlt: "Speech bubbles saying hello in English, Spanish, Arabic, Burmese and Swahili",
       startButton: "Not sure where to start? Answer 2 quick questions",
-      illustrationAlt: "Illustration placeholder: diverse families walking to campus",
-      illustrationPlaceholder: "Illustration placeholder",
       whatDoYouNeed: "What do you need?",
       cards: {
          learnEnglish: { title: "Learn English (ESL)", description: "English classes at night and on weekends" },

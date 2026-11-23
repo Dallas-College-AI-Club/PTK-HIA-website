@@ -15,10 +15,11 @@ export const languages = [
 ] as const;
 
 /**
- * Right-to-left layout (Arabic) is on hold: every language stays left to right
- * until the team agrees how translations will work. Set to true to turn it back on.
+ * Right-to-left layout for Arabic (issue #55). The page's direction comes from
+ * its address: /ar/... is right to left. Set to false to keep every language
+ * left to right.
  */
-export const RTL_ENABLED = false;
+export const RTL_ENABLED = true;
 
 export type LanguageCode = (typeof languages)[number]["code"];
 

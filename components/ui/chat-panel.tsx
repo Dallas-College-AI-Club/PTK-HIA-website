@@ -158,7 +158,7 @@ function ChatPanel() {
                   className="flex min-h-[52px] items-center gap-2.5 rounded-[14px] border-2 border-brand-line bg-white px-3.5 py-2 text-start text-base font-bold text-brand-navy-dark hover:border-brand-navy"
                 >
                   <span className="flex-1">{starter}</span>
-                  <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-brand-navy" strokeWidth={2.5} />
+                  <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-brand-navy rtl:-scale-x-100" strokeWidth={2.5} />
                 </button>
               ))}
             </div>
@@ -172,10 +172,11 @@ function ChatPanel() {
             return (
               <div
                 key={message.id}
-                className="max-w-[85%] self-end rounded-[18px] rounded-br-[4px] bg-brand-navy px-4 py-3 font-semibold break-words whitespace-pre-wrap text-white md:max-w-[70%] md:text-[17px]"
+                className="max-w-[85%] self-end rounded-[18px] rounded-ee-[4px] bg-brand-navy px-4 py-3 font-semibold break-words whitespace-pre-wrap text-white md:max-w-[70%] md:text-[17px]"
               >
                 <span className="sr-only">{t.youSaid} </span>
-                {text}
+                {/* dir="auto": an English question on an Arabic page still reads left to right. */}
+                <span dir="auto">{text}</span>
               </div>
             )
           }
@@ -188,7 +189,7 @@ function ChatPanel() {
 
           return (
             <BotBubble key={message.id} name={t.botName}>
-              <p className="break-words whitespace-pre-wrap">{text}</p>
+              <p dir="auto" className="break-words whitespace-pre-wrap">{text}</p>
               {sources.length > 0 && (
                 <ul className="flex flex-col gap-0.5">
                   {sources.map((source) => (
@@ -242,7 +243,7 @@ function ChatPanel() {
             <span className="font-extrabold md:text-lg">{t.talkToPerson}</span>
             <span className="text-sm text-brand-muted md:text-[15px]">{t.talkToPersonBody}</span>
           </span>
-          <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy" strokeWidth={2.5} />
+          <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy rtl:-scale-x-100" strokeWidth={2.5} />
         </Link>
       )}
 
@@ -263,6 +264,8 @@ function ChatPanel() {
         <div className="flex items-end gap-2 md:gap-2.5">
           <textarea
             ref={inputRef}
+            // Follows what the visitor types: Arabic right to left, English left to right.
+            dir="auto"
             id={inputId}
             name="question"
             rows={1}
@@ -289,7 +292,7 @@ function ChatPanel() {
           >
             <ArrowUp aria-hidden="true" className="size-[22px] md:hidden" strokeWidth={2.5} />
             <span aria-hidden="true" className="hidden md:inline">{t.askButton}</span>
-            <ArrowRight aria-hidden="true" className="hidden size-5 md:block" strokeWidth={2.5} />
+            <ArrowRight aria-hidden="true" className="hidden size-5 md:block rtl:-scale-x-100" strokeWidth={2.5} />
           </button>
         </div>
         <p className="text-[13px] leading-snug text-brand-muted md:text-[15px]">{pageText.home.aiNotice}</p>
@@ -300,7 +303,7 @@ function ChatPanel() {
 
 function BotBubble({ name, children }: { name: string; children: React.ReactNode }) {
   return (
-    <div className="flex max-w-[92%] flex-col gap-2 self-start rounded-[18px] rounded-bl-[4px] border-2 border-brand-line bg-white px-4 py-3.5 md:max-w-[80%] md:bg-brand-page md:text-[17px]">
+    <div className="flex max-w-[92%] flex-col gap-2 self-start rounded-[18px] rounded-es-[4px] border-2 border-brand-line bg-white px-4 py-3.5 md:max-w-[80%] md:bg-brand-page md:text-[17px]">
       <span className="flex items-center gap-2 text-sm font-extrabold text-brand-navy md:text-[15px]">
         <span className="flex size-7 items-center justify-center rounded-lg bg-brand-tint">
           <MessageCircle aria-hidden="true" className="size-4" strokeWidth={2.2} />
@@ -364,7 +367,7 @@ function BackArrow({ label }: { label: string }) {
       aria-label={label}
       className="flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-brand-navy bg-white text-brand-navy hover:bg-brand-tint md:hidden"
     >
-      <ArrowLeft aria-hidden="true" className="size-[22px]" strokeWidth={2.5} />
+      <ArrowLeft aria-hidden="true" className="size-[22px] rtl:-scale-x-100" strokeWidth={2.5} />
     </Link>
   )
 }

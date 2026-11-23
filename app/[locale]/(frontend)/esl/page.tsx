@@ -102,7 +102,7 @@ export default async function Esl() {
                className="inline-flex items-center gap-1 font-bold text-brand-navy underline"
             >
                {t.pages.talkToSomeone}
-               <ArrowRight aria-hidden="true" className="size-4" />
+               <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
             </Link>
          </p>
       </div>

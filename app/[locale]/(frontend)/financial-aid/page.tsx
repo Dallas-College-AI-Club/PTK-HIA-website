@@ -1,4 +1,5 @@
 import { ArrowRight, BusFront, ExternalLink, GraduationCap, Landmark, type LucideIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
@@ -25,6 +26,15 @@ const SECTIONS: { key: SectionKey; icon: LucideIcon; links: LinkKey[] }[] = [
    { key: "busPass", icon: BusFront, links: ["goPass"] },
    { key: "scholarships", icon: GraduationCap, links: ["scholarships", "dreamers"] },
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+   const t = getMessages(await getLocale());
+
+   return {
+      title: `${t.pages.payForCollege} | ${t.brand.name}`,
+      description: t.financialAid.intro,
+   };
+}
 
 export default async function FinancialAid() {
    const t = getMessages(await getLocale());
@@ -92,7 +102,7 @@ export default async function FinancialAid() {
                className="inline-flex items-center gap-1 font-bold text-brand-navy underline"
             >
                {t.pages.talkToSomeone}
-               <ArrowRight aria-hidden="true" className="size-4" />
+               <ArrowRight aria-hidden="true" className="size-4 rtl:-scale-x-100" />
             </Link>
          </p>
       </div>

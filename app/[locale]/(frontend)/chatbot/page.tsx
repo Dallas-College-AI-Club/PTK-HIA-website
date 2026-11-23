@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -5,6 +6,15 @@ import { BackArrow, ChatPanel } from "@/components/ui/chat-panel";
 import { getMessages } from "@/lib/i18n";
 import { pageContainer } from "@/lib/layout";
 import { cn } from "@/lib/utils";
+
+export async function generateMetadata(): Promise<Metadata> {
+   const t = getMessages(await getLocale());
+
+   return {
+      title: `${t.chatbot.title} | ${t.brand.name}`,
+      description: t.chatbot.subtitle,
+   };
+}
 
 export default async function Chatbot() {
    const t = getMessages(await getLocale());
