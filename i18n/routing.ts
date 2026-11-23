@@ -11,8 +11,12 @@ export const routing = defineRouting({
    locales,
    defaultLocale: "en",
    localePrefix: "as-needed",
-   // Only the URL decides the language. Don't redirect visitors based on their
-   // browser language yet (the Spanish text is still a mock). The first-visit
-   // language prompt is issue #12.
-   localeDetection: false,
+   // Remember the visitor's language (issue #12). A returning visitor who opens
+   // the plain address (/) is sent to the language they used last, by the
+   // server, so the page never flashes in English first. A first-time visitor
+   // starts in their browser's language if we have it, and the first-visit
+   // prompt (components/ui/language-prompt.tsx) lets them pick.
+   localeDetection: true,
+   // The cookie only holds the language code (e.g. "es"). Kept for a year.
+   localeCookie: { maxAge: 60 * 60 * 24 * 365 },
 });

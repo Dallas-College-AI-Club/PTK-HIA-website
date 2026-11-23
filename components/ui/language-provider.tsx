@@ -1,6 +1,9 @@
 "use client"
 
+import { useLocale } from "next-intl"
 import { createContext, useCallback, useContext, useSyncExternalStore } from "react"
+
+import { usePathname, useRouter } from "@/i18n/navigation"
 
 import {
   defaultLanguage,
@@ -71,4 +74,24 @@ function useLanguage() {
   }
 }
 
-export { LanguageProvider, useLanguage }
+/**
+ * Switches the site's language (issue #12): remembers the choice (so the
+ * first-visit prompt doesn't come back) and opens the same page in that
+ * language, e.g. /esl → /ar/esl. The language cookie is updated by next-intl.
+ */
+function useSwitchLanguage() {
+  const { setLanguage } = useLanguage()
+  const locale = useLocale()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  return useCallback(
+    (code: LanguageCode) => {
+      setLanguage(code)
+      if (code !== locale) router.replace(pathname, { locale: code, scroll: false })
+    },
+    [setLanguage, locale, pathname, router],
+  )
+}
+
+export { LanguageProvider, useLanguage, useSwitchLanguage }

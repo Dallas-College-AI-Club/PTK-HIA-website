@@ -1,6 +1,7 @@
 import { BackHome } from "@/components/ui/back-home";
 import { BottomBar } from "@/components/ui/bottom-bar";
 import { Footer } from "@/components/ui/footer";
+import { LanguagePrompt } from "@/components/ui/language-prompt";
 import { NavBar } from "@/components/ui/navbar";
 import { StillHaveQuestion } from "@/components/ui/still-have-question";
 
@@ -23,6 +24,8 @@ export default function FrontendLayout({ children }: LayoutProps<"/[locale]">) {
          </main>
          <Footer />
          <BottomBar />
+         {/* First-visit "Choose your language" (issue #12). */}
+         <LanguagePrompt />
       </>
    );
 }
