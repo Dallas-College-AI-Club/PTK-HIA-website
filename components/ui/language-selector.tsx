@@ -10,23 +10,20 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useLanguage } from "@/components/ui/language-provider"
+import { useLanguage, useSwitchLanguage } from "@/components/ui/language-provider"
 import { getMessages } from "@/lib/i18n"
 import { getLanguage, isLanguageCode, languages } from "@/lib/i18n/languages"
 
 /**
- * Language button in the top bar (issue #12). Lives in the slot Jason left in
- * navbar.tsx: keep it within ~120px on phones and ~160px on desktop.
- *
- * TODO(Angie):
- * 1. Match the button to the approved mockup (border, icon, font sizes).
- * 2. Check it on a 375px-wide screen with the longest name (Kiswahili).
- * 3. Check the menu opens on the left side when the page is Arabic (RTL).
+ * Language button in the top bar (issue #12). Shows the page's language in
+ * its own script; picking another opens the same page in that language and
+ * remembers the choice. Keep it within ~120px on phones and ~160px on desktop.
  */
 function LanguageSelector() {
   const locale = useLocale()
   const t = getMessages(locale)
-  const { current, setLanguage } = useLanguage()
+  const { current } = useLanguage()
+  const switchLanguage = useSwitchLanguage()
   // Show the language this page is in (from its address, e.g. /ar), not only
   // the saved choice, so an Arabic page never says "English" (issue #55).
   const shown = isLanguageCode(locale) ? locale : current
@@ -48,7 +45,7 @@ function LanguageSelector() {
         <DropdownMenuRadioGroup
           value={shown}
           onValueChange={(value) => {
-            if (isLanguageCode(value)) setLanguage(value)
+            if (isLanguageCode(value)) switchLanguage(value)
           }}
         >
           {languages.map((language) => (

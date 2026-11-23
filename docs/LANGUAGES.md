@@ -5,6 +5,25 @@ language has its own pages: `/` is English, `/es`, `/ar`, `/my` and `/sw` are
 the others. **The address decides the language**, including whether the page
 reads right to left.
 
+## How a visitor's language is chosen (issue #12)
+
+1. **First visit:** the site starts in the browser's language if we have it
+   (otherwise English), and a **"Choose your language"** box asks the
+   visitor to pick. Each language is written in its own script. Closing the
+   box keeps the current language.
+2. **Switching:** the language button in the top bar opens the same page in
+   the new language (e.g. `/esl` → `/ar/esl`).
+3. **Remembering:** the choice is saved in the browser, so the box doesn't
+   come back, and in a small cookie (`NEXT_LOCALE`, kept for a year) that only
+   holds the language code. When a returning visitor opens the plain address
+   (`/`), the server sends them straight to their language.
+4. **The chatbot** gets the page's language with every question, and
+   answers in the language the question is written in.
+
+Files: `i18n/routing.ts` (the cookie), `components/ui/language-provider.tsx`
+(`useSwitchLanguage`), `components/ui/language-selector.tsx` (top bar button),
+`components/ui/language-prompt.tsx` (first-visit box).
+
 ## Where the text lives
 
 Every word a visitor sees is in one file per language, in `lib/i18n/`:
