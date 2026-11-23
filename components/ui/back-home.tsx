@@ -25,9 +25,9 @@ function BackHome() {
     <div className={cn(pageContainer, "pt-4 md:pt-8", hideOnPhone && "max-md:hidden")}>
       <Link
         href="/"
-        className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-brand-navy py-1 pr-5 pl-3.5 text-[17px] font-bold text-brand-navy hover:bg-brand-tint"
+        className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-brand-navy py-1 pe-5 ps-3.5 text-[17px] font-bold text-brand-navy hover:bg-brand-tint"
       >
-        <ArrowLeft aria-hidden="true" className="size-[22px]" strokeWidth={2.5} />
+        <ArrowLeft aria-hidden="true" className="size-[22px] rtl:-scale-x-100" strokeWidth={2.5} />
         {t.layout.backHome}
       </Link>
     </div>

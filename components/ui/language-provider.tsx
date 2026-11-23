@@ -2,7 +2,6 @@
 
 import { createContext, useCallback, useContext, useSyncExternalStore } from "react"
 
-import { applyLanguage } from "@/lib/i18n/apply-language"
 import {
   defaultLanguage,
   isLanguageCode,
@@ -49,9 +48,8 @@ function LanguageProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(LANGUAGE_STORAGE_KEY, code)
     } catch {
-      // Not saved, but we still switch for this visit.
+      // Not saved (storage blocked). The page itself still follows its address.
     }
-    applyLanguage(code)
     listeners.forEach((listener) => listener())
   }, [])
 

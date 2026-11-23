@@ -10,6 +10,8 @@ export const es: Messages = {
    brand: {
       name: "PTK × AI Club",
       college: "Dallas College",
+      // The site's description for search results and link previews.
+      description: "Encuentre clases de inglés, empiece la universidad, pague sus estudios y hable con una persona real de Dallas College, en su idioma.",
    },
    pages: {
       home: "Inicio",
@@ -169,8 +171,6 @@ export const es: Messages = {
          "Las respuestas vienen de recursos reunidos por PTK. Confirme siempre los detalles importantes con Dallas College.",
       illustrationAlt: "Globos de diálogo que dicen hola en inglés, español, árabe, birmano y suajili",
       startButton: "¿No sabe por dónde empezar? Responda 2 preguntas rápidas",
-      illustrationAlt: "Ilustración de ejemplo: familias diversas caminando al campus",
-      illustrationPlaceholder: "Ilustración de ejemplo",
       whatDoYouNeed: "¿Qué necesita?",
       cards: {
          learnEnglish: { title: "Aprender inglés (ESL)", description: "Clases de inglés de noche y los fines de semana" },

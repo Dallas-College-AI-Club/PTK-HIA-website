@@ -1,4 +1,4 @@
-import { ArrowRight, Baby, Bus, ChevronRight, Compass, Heart, ImageIcon, type LucideIcon } from "lucide-react";
+import { ArrowRight, Baby, Bus, ChevronRight, Compass, Heart, type LucideIcon } from "lucide-react";
 import { getLocale } from "next-intl/server";
 
 import { AskBox } from "@/components/ui/ask-box";
@@ -39,7 +39,7 @@ export default async function Home() {
                   >
                      <Compass aria-hidden="true" className="size-6 shrink-0 text-brand-navy" />
                      <span className="flex-1">{t.home.startButton}</span>
-                     <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy" strokeWidth={2.5} />
+                     <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy rtl:-scale-x-100" strokeWidth={2.5} />
                   </Link>
                </div>
 
@@ -94,14 +94,14 @@ export default async function Home() {
                               <span className="text-[19px] font-extrabold text-brand-navy-dark md:text-[23px]">{card.title}</span>
                               <span className="text-[15px] text-brand-muted md:text-base">{card.description}</span>
                            </span>
-                           <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy md:hidden" strokeWidth={2.5} />
+                           <ChevronRight aria-hidden="true" className="size-[22px] shrink-0 text-brand-navy md:hidden rtl:-scale-x-100" strokeWidth={2.5} />
                            <span
                               className={cn(
                                  "hidden size-10 items-center justify-center self-end rounded-full md:flex",
                                  highlight ? "bg-brand-gold text-brand-navy-dark" : "bg-brand-navy text-white",
                               )}
                            >
-                              <ArrowRight aria-hidden="true" className="size-5" strokeWidth={2.5} />
+                              <ArrowRight aria-hidden="true" className="size-5 rtl:-scale-x-100" strokeWidth={2.5} />
                            </span>
                         </Link>
                      </li>
@@ -123,7 +123,7 @@ export default async function Home() {
                      <li key={key} className="flex">
                         <Link
                            href={{ pathname: sitePages.askQuestion.href, query: { q: item.question } }}
-                           className="flex w-full flex-col items-center gap-2 rounded-[14px] border-2 border-brand-line bg-white px-1.5 py-3.5 text-center text-[15px] font-bold text-brand-navy-dark hover:border-brand-navy md:min-h-[76px] md:flex-row md:gap-3.5 md:px-[18px] md:text-left md:text-lg"
+                           className="flex w-full flex-col items-center gap-2 rounded-[14px] border-2 border-brand-line bg-white px-1.5 py-3.5 text-center text-[15px] font-bold text-brand-navy-dark hover:border-brand-navy md:min-h-[76px] md:flex-row md:gap-3.5 md:px-[18px] md:text-start md:text-lg"
                         >
                            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-tint text-brand-navy md:size-12">
                               <Icon aria-hidden="true" className="size-6" />

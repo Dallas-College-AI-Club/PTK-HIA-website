@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react"
 
 import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { useRouter } from "@/i18n/navigation"
-import { getMessages } from "@/lib/i18n"
+import { formatNumber, getMessages } from "@/lib/i18n"
 import {
   emptyAnswers,
   ONBOARDING_STEPS,
@@ -31,7 +31,8 @@ import { cn } from "@/lib/utils"
  *   see lib/onboarding.ts) and opens the chatbot, which reads them there.
  */
 function OnboardingWizard() {
-  const t = getMessages(useLocale())
+  const locale = useLocale()
+  const t = getMessages(locale)
   const text = t.onboarding
   const router = useRouter()
   const formId = useId()
@@ -110,7 +111,9 @@ function OnboardingWizard() {
       <StepIndicator
         step={currentStep + 1}
         total={ONBOARDING_STEPS.length}
-        label={text.progress.replace("{step}", String(currentStep + 1)).replace("{total}", String(ONBOARDING_STEPS.length))}
+        label={text.progress
+          .replace("{step}", formatNumber(currentStep + 1, locale))
+          .replace("{total}", formatNumber(ONBOARDING_STEPS.length, locale))}
       />
 
       <fieldset
@@ -143,7 +146,7 @@ function OnboardingWizard() {
                 <label
                   key={option.id}
                   className={cn(
-                    "relative flex min-h-[112px] cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 px-2 py-3.5 text-center md:min-h-[84px] md:flex-row md:justify-start md:gap-3.5 md:px-[18px] md:text-left",
+                    "relative flex min-h-[112px] cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 px-2 py-3.5 text-center md:min-h-[84px] md:flex-row md:justify-start md:gap-3.5 md:px-[18px] md:text-start",
                     "has-[input:focus-visible]:outline-[3px] has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-navy",
                     checked
                       ? "border-brand-navy bg-brand-gold-soft ring-1 ring-brand-navy"
@@ -175,7 +178,7 @@ function OnboardingWizard() {
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "absolute top-2 right-2 flex size-6 items-center justify-center rounded-full md:static md:size-7",
+                      "absolute end-2 top-2 flex size-6 items-center justify-center rounded-full md:static md:size-7",
                       checked ? "bg-brand-navy text-white" : "border-2 border-brand-line bg-white",
                     )}
                   >
@@ -197,7 +200,7 @@ function OnboardingWizard() {
       <div className="flex flex-wrap items-center gap-2.5 border-t border-brand-line-soft pt-4 md:gap-3">
         {currentStep > 0 && (
           <button type="button" onClick={() => goTo(currentStep - 1)} className={secondaryButton}>
-            <ArrowLeft aria-hidden="true" className="size-5" strokeWidth={2.5} />
+            <ArrowLeft aria-hidden="true" className="size-5 rtl:-scale-x-100" strokeWidth={2.5} />
             {text.back}
           </button>
         )}
@@ -215,7 +218,7 @@ function OnboardingWizard() {
             {isLastStep ? (
               <MessageCircle aria-hidden="true" className="size-5" />
             ) : (
-              <ArrowRight aria-hidden="true" className="size-5" strokeWidth={2.5} />
+              <ArrowRight aria-hidden="true" className="size-5 rtl:-scale-x-100" strokeWidth={2.5} />
             )}
           </button>
         </div>

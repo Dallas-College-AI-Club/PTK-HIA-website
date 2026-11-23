@@ -34,7 +34,7 @@ async function NavBar() {
           </span>
         </Link>
 
-        <div className="ml-auto flex items-center gap-1.5 md:gap-2">
+        <div className="ms-auto flex items-center gap-1.5 md:gap-2">
           {/* Language selector (issue #12). Keep it within ~120px on phones
               and ~160px on desktop. */}
           <div data-slot="language-selector">

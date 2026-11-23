@@ -1,0 +1,288 @@
+import type { Messages } from "./en";
+
+/**
+ * Swahili text (issue #55). Keep the same keys as en.ts: the type below makes
+ * the build fail if a line is missing or extra.
+ */
+export const sw: Messages = {
+   brand: {
+      name: "PTK × AI Club",
+      college: "Dallas College",
+      // The site's description for search results and link previews.
+      description: "Tafuta madarasa ya Kiingereza, anza chuo, pata msaada wa kulipia masomo, na wasiliana na mtu halisi wa Dallas College, kwa lugha yako.",
+   },
+   pages: {
+      home: "Mwanzo",
+      learnEnglish: "Jifunze Kiingereza",
+      startCollege: "Anza Chuo",
+      payForCollege: "Lipia Chuo",
+      talkToSomeone: "Ongea na Mtu",
+      askQuestion: "Uliza Swali",
+      start: "Anza",
+   },
+   layout: {
+      backHome: "Mwanzo",
+      stillHaveQuestion: "Bado una swali?",
+      stillHaveQuestionBody: "Uliza kwa lugha yako. Majibu yanatoka kwenye rasilimali zilizokusanywa na PTK.",
+      askInYourLanguage: "Uliza kwa lugha yako",
+      footerPoweredBy: "Imewezeshwa na PTK na AI Club ya Dallas College",
+      footerInstagram: "Instagram",
+      footerPrivacy: "Faragha",
+      comingSoon: "Inakuja hivi karibuni",
+      opensNewTab: "(inafunguka kwenye kichupo kipya)",
+      footerNotOfficial: "Hii si tovuti rasmi ya Dallas College.",
+      mainNavLabel: "Kuu",
+      quickActionsLabel: "Vitendo vya haraka",
+      footerNavLabel: "Sehemu ya chini",
+   },
+   language: {
+      label: "Lugha",
+      chooseTitle: "Chagua lugha yako",
+   },
+   startCollege: {
+      intro: "Unaomba na kujiandikisha kwa madarasa kwenye tovuti ya Dallas College.",
+      registrationLink: "Nenda kwenye usajili wa Dallas College",
+      englishNote: "Tovuti ya Dallas College iko kwa Kiingereza. Unahitaji msaada na hatua hizi?",
+   },
+   financialAid: {
+      intro: "Njia za kupata msaada wa kulipia masomo.",
+      sections: {
+         aid: {
+            title: "Msaada wa kifedha",
+            body: "Pesa kutoka serikalini za kusaidia kulipia madarasa. Omba kila mwaka.",
+         },
+         busPass: {
+            title: "Pasi ya basi ya bure kwa wanafunzi",
+            body: "Panda mabasi na treni za DART bure wakati unasoma.",
+         },
+         scholarships: {
+            title: "Ufadhili wa masomo",
+            body: "Pesa za masomo ambazo hutazilipa tena.",
+         },
+      },
+      links: {
+         aidOverview: { label: "Jinsi msaada wa kifedha unavyofanya kazi" },
+         fafsa: { label: "Omba kupitia FAFSA", hint: "Kwa raia wa Marekani, wakazi wa kudumu na wakimbizi" },
+         tasfa: { label: "Omba kupitia TASFA", hint: "Kwa wanafunzi wa Texas wasioweza kutumia FAFSA" },
+         keepAid: { label: "Endelea kupata msaada wako wa kifedha" },
+         goPass: { label: "Pata DART GoPass yako" },
+         scholarships: { label: "Tafuta ufadhili wa masomo", hint: "Ombi moja kwa ufadhili mwingi" },
+         dreamers: { label: "Msaada kwa wanafunzi wa Dreamers na DACA" },
+      },
+      englishNote: "Tovuti ya Dallas College iko kwa Kiingereza. Unahitaji msaada?",
+   },
+   getConnected: {
+      title: "Ongea na mtu",
+      intro: "Acha maelezo yako ya mawasiliano na mtu halisi wa Dallas College atawasiliana nawe.",
+      privacyNote: "Hatutawahi kuuliza kuhusu hali yako ya uhamiaji.",
+      fields: {
+         fullName: "Jina kamili",
+         email: "Barua pepe",
+         phone: "Simu",
+         contactHint: "Tupe barua pepe au namba ya simu (au zote mbili).",
+         preferredLanguage: "Lugha unayopendelea",
+         situation: "Ni kipi kinakueleza vizuri zaidi?",
+         helpWith: "Unahitaji msaada na nini?",
+         notes: "Kuna kitu kingine tunachopaswa kujua? (si lazima)",
+         choose: "Chagua kimoja",
+      },
+      situations: {
+         highSchoolSenior: "Mwanafunzi wa mwaka wa mwisho wa sekondari",
+         currentStudent: "Mwanafunzi wa sasa wa Dallas College",
+         parent: "Mzazi",
+         refugee: "Mkimbizi / mgeni nchini Marekani",
+         eslLearner: "Mwanafunzi wa Kiingereza (ESL)",
+         other: "Nyingine",
+      },
+      helpTopics: {
+         admissions: "Udahili",
+         esl: "Madarasa ya Kiingereza (ESL)",
+         financialAid: "Msaada wa kifedha / ada",
+         childcare: "Malezi ya watoto",
+         transportation: "Usafiri",
+         counseling: "Ushauri nasaha",
+         other: "Nyingine",
+      },
+      errors: {
+         fullNameRequired: "Tafadhali andika jina lako.",
+         contactRequired: "Tafadhali tupe barua pepe au namba ya simu.",
+         emailInvalid: "Barua pepe hii haionekani kamili. Hakikisha ina @ na nukta.",
+         choose: "Tafadhali chagua kimoja.",
+         generic: "Kuna tatizo upande wetu. Tafadhali jaribu tena.",
+      },
+      submit: "Tuma ombi langu",
+      sending: "Inatuma…",
+      thankYouTitle: "Asante!",
+      thankYouBody: "Mtu kutoka Dallas College atawasiliana nawe hivi karibuni.",
+      ptkContact: {
+         title: "Wasiliana na PTK",
+         body: "Una swali kwa wanafunzi wa PTK waliotengeneza tovuti hii? Tutumie barua pepe.",
+         emailButton: "Tuma barua pepe kwa PTK",
+      },
+      peerMentor: {
+         title: "Washauri rika",
+         body: "Ongea na mwanafunzi aliyewahi kupitia hali uliyonayo.",
+      },
+   },
+   esl: {
+      title: "Jifunze Kiingereza",
+      description: "Programu za jioni na wikendi, hatua za usajili na maeneo.",
+      intro: "Madarasa ya jioni na wikendi, jinsi ya kujiandikisha, na mahali pa kwenda.",
+      sections: {
+         nightsWeekends: {
+            title: "Programu za jioni na wikendi",
+            body: "Madarasa ya jioni na Jumamosi kwa watu wazima wanaofanya kazi.",
+         },
+         registration: {
+            title: "Hatua za usajili",
+            body: "Hatua za kujiandikisha kwa madarasa na kuyalipia.",
+         },
+         locations: {
+            title: "Maeneo",
+            body: "Tafuta kampasi na vituo vilivyo karibu nawe.",
+         },
+      },
+      links: {
+         nightsWeekends: { label: "Tazama programu za jioni na wikendi" },
+         registration: { label: "Tazama hatua za usajili" },
+         locations: { label: "Tazama maeneo yote" },
+      },
+      englishNote: "Tovuti ya Dallas College iko kwa Kiingereza. Unahitaji msaada?",
+   },
+   home: {
+      welcome: "Karibu",
+      howCanWeHelp: "Tunawezaje kukusaidia?",
+      askLabel: "Uliza swali kwa lugha yako",
+      askPlaceholder: "Andika swali lako",
+      askButton: "Uliza",
+      popular: "Maarufu:",
+      popularQuestions: [
+         { label: "Madarasa ya ESL ya jioni", question: "Ninajiandikishaje kwa madarasa ya ESL ya jioni?" },
+         { label: "Ufadhili wa masomo", question: "Ni ufadhili gani wa masomo ninaoweza kuomba?" },
+         { label: "Pasi ya basi ya bure", question: "Ninapataje pasi ya basi ya bure ya wanafunzi?" },
+      ],
+      aiNotice: "Majibu yanatoka kwenye rasilimali zilizokusanywa na PTK. Daima thibitisha maelezo muhimu na Dallas College.",
+      illustrationAlt: "Viputo vya mazungumzo vinavyosema habari kwa Kiingereza, Kihispania, Kiarabu, Kiburma na Kiswahili",
+      startButton: "Hujui pa kuanzia? Jibu maswali 2 ya haraka",
+      whatDoYouNeed: "Unahitaji nini?",
+      cards: {
+         learnEnglish: { title: "Jifunze Kiingereza (ESL)", description: "Madarasa ya Kiingereza jioni na wikendi" },
+         startCollege: { title: "Anza Chuo", description: "Hatua kutoka kuomba hadi darasa lako la kwanza" },
+         payForCollege: { title: "Lipia Chuo", description: "Msaada wa kifedha, ufadhili wa masomo na mipango ya malipo" },
+         talkToSomeone: { title: "Ongea na Mtu", description: "Mtu halisi atakusaidia" },
+      },
+      moreHelp: "Msaada zaidi",
+      moreHelpItems: {
+         childcare: { label: "Malezi ya watoto", question: "Kuna msaada gani wa malezi ya watoto kwa wanafunzi?" },
+         busPass: { label: "Pasi ya basi", question: "Ninapataje pasi ya basi ya bure ya wanafunzi?" },
+         counseling: { label: "Ushauri nasaha", question: "Ninapangaje miadi ya ushauri nasaha?" },
+      },
+   },
+   privacy: {
+      title: "Faragha",
+      description: "Jinsi tovuti hii inavyolinda faragha yako: tunachouliza, tusichowahi kuuliza, na taarifa zako zinakokwenda.",
+      intro: [
+         "Watu wengi wanaotumia tovuti hii wanajifunza Kiingereza, ni wageni nchini Marekani, au wanalea familia huku wakisoma. Unapaswa kupata msaada bila kupoteza faragha yako.",
+         "Kwa hiyo tuliunda tovuti hii iulize kidogo iwezekanavyo, na ikueleze wazi kinachotokea kwa chochote unachoshiriki.",
+      ],
+      sections: [
+         {
+            title: "Mtazamo wetu kuhusu faragha",
+            items: [
+               "Tunauliza tu kile tunachohitaji ili kukusaidia.",
+               "Hatuwahi kuuliza kuhusu hali yako ya uhamiaji.",
+               "Wewe ndiye unayechagua cha kushiriki. Kila fomu na swali kwenye tovuti hii ni hiari kutumia.",
+               "Hatuonyeshi matangazo, hatutumii zana za kufuatilia, na hatuuzi taarifa zako kamwe.",
+            ],
+         },
+         {
+            title: "Ukitumia Ongea na Mtu",
+            items: [
+               "Fomu inauliza jina lako, barua pepe au namba ya simu, lugha unayopendelea, kinachokueleza, unachohitaji msaada nacho, na maelezo yoyote unayotaka kuongeza.",
+               "Inatumwa kwa barua pepe kwa timu ya PTK na Success Coaches wa Dallas College, ili mtu halisi awasiliane nawe. Inatumika tu kukusaidia.",
+            ],
+         },
+         {
+            title: "Ukitumia chatbot",
+            items: [
+               "Ili kuandika jibu, maswali yako yanatumwa kwa huduma ya AI (kupitia OpenRouter). Tafadhali usiandike maelezo binafsi, kama namba yako ya mwanafunzi au anwani yako.",
+               "Ikiwa ulijibu maswali ya “Hujui pa kuanzia?”, majibu hayo yanatumwa pia, ili jibu likufae zaidi.",
+               "Hatuhifadhi mazungumzo yako. Yanapotea unapofunga ukurasa. Huduma ya AI inaweza kuhifadhi ujumbe kulingana na sheria zake.",
+            ],
+         },
+         {
+            title: "Tovuti nyingine",
+            items: [
+               "Huu ni mradi wa wanafunzi wa Phi Theta Kappa (PTK) na AI Club ya Dallas College. Si tovuti rasmi ya Dallas College.",
+               "Unapofuata kiungo kwenda Dallas College au Instagram, sheria zao za faragha zinatumika.",
+            ],
+         },
+      ],
+   },
+   chatbot: {
+      title: "Uliza Swali",
+      subtitle: "Uliza kwa lugha yako",
+      botName: "Chatbot ya PTK",
+      greeting: "Habari! Niulize chochote kuhusu Dallas College. Unaweza kuandika kwa lugha yako.",
+      tapAQuestion: "Au gusa swali:",
+      starterQuestions: [
+         "Ninajiandikishaje kwa madarasa ya ESL ya jioni?",
+         "Ni ufadhili gani wa masomo ninaoweza kuomba?",
+         "Ninapataje pasi ya basi ya bure ya wanafunzi?",
+         "Kuna msaada gani wa malezi ya watoto kwa wanafunzi?",
+      ],
+      conversationLabel: "Mazungumzo",
+      youSaid: "Ulisema:",
+      thinking: "Inatafuta jibu…",
+      source: "Chanzo:",
+      helpful: "Je, hii imekusaidia?",
+      yes: "Ndiyo",
+      no: "Hapana",
+      thanksForFeedback: "Asante kwa kutuambia.",
+      talkToPerson: "Ongea na mtu halisi",
+      talkToPersonBody: "Mtu wa Dallas College atakusaidia",
+      inputLabel: "Andika swali lako",
+      askAnother: "Uliza swali lingine",
+      send: "Tuma swali",
+      askButton: "Uliza",
+      error: "Samahani, kuna tatizo. Tafadhali jaribu tena, au ongea na mtu halisi.",
+      tooManyQuestions: "Umeuliza maswali mengi kwa haraka. Tafadhali subiri dakika moja, kisha jaribu tena.",
+      tryAgain: "Jaribu tena",
+   },
+   onboarding: {
+      title: "Pata unachohitaji",
+      intro: "Jibu maswali 2 ya haraka ili chatbot ikusaidie haraka zaidi. Hakuna kinachohifadhiwa.",
+      // {step} and {total} are replaced with numbers.
+      progress: "Hatua {step} kati ya {total}",
+      steps: {
+         needs: {
+            title: "Unahitaji msaada na nini?",
+            hint: "Gusa kimoja au zaidi.",
+            error: "Gusa angalau jibu moja, au “Sina uhakika”.",
+         },
+         about: {
+            title: "Kuna kingine kuhusu wewe?",
+            hint: "Si lazima. Gusa yoyote inayokufaa, au ruka.",
+         },
+      },
+      options: {
+         esl: { label: "Madarasa ya Kiingereza", question: "Ninajiandikishaje kwa madarasa ya ESL ya jioni?" },
+         college: { label: "Anza chuo", question: "Ninaombaje na kujiandikisha kwa madarasa?" },
+         pay: { label: "Lipia chuo", question: "Ninawezaje kupata msaada wa kulipia chuo?" },
+         childcare: { label: "Malezi ya watoto", question: "Kuna msaada gani wa malezi ya watoto kwa wanafunzi?" },
+         transit: { label: "Pasi ya basi", question: "Ninapataje pasi ya basi ya bure ya wanafunzi?" },
+         counseling: { label: "Ushauri nasaha", question: "Ninapangaje miadi ya ushauri nasaha?" },
+         "not-sure": { label: "Sina uhakika" },
+         parent: { label: "Mimi ni mzazi" },
+         "works-days": { label: "Ninafanya kazi mchana" },
+         new: { label: "Mimi ni mgeni chuoni" },
+      },
+      back: "Rudi",
+      next: "Endelea",
+      skip: "Ruka",
+      startChatting: "Anza mazungumzo",
+      chatGreeting: "Haya ni maswali kuhusu ulichochagua. Gusa moja, au andika swali lako.",
+      yourAnswers: "Ulichagua:",
+      change: "Badilisha",
+   },
+};

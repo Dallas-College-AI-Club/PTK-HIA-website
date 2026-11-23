@@ -41,7 +41,7 @@ function StillHaveQuestion() {
         >
           <span className="md:hidden">{t.layout.askInYourLanguage}</span>
           <span className="hidden md:inline">{t.pages.askQuestion}</span>
-          <ArrowRight aria-hidden="true" className="size-5 shrink-0" strokeWidth={2.5} />
+          <ArrowRight aria-hidden="true" className="size-5 shrink-0 rtl:-scale-x-100" strokeWidth={2.5} />
         </Link>
       </div>
     </section>

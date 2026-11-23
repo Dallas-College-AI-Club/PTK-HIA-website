@@ -1,4 +1,5 @@
 import { HandHeart, Mail } from "lucide-react";
+import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
 import { GetConnectedForm } from "@/components/ui/get-connected-form";
@@ -6,6 +7,15 @@ import { getMessages } from "@/lib/i18n";
 import { pageContainer } from "@/lib/layout";
 
 const PTK_EMAIL = "ptkalphaalphaxi1@gmail.com";
+
+export async function generateMetadata(): Promise<Metadata> {
+   const t = getMessages(await getLocale());
+
+   return {
+      title: `${t.pages.talkToSomeone} | ${t.brand.name}`,
+      description: t.getConnected.intro,
+   };
+}
 
 export default async function GetConnected() {
    const messages = getMessages(await getLocale());

@@ -26,7 +26,7 @@ function NavLinks() {
 
           return (
             // The primary page (Ask a Question) is pushed to the end of the row.
-            <li key={key} className={cn(emphasis === "primary" && "ml-auto")}>
+            <li key={key} className={cn(emphasis === "primary" && "ms-auto")}>
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}

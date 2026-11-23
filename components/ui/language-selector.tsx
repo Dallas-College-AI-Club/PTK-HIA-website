@@ -24,8 +24,12 @@ import { getLanguage, isLanguageCode, languages } from "@/lib/i18n/languages"
  * 3. Check the menu opens on the left side when the page is Arabic (RTL).
  */
 function LanguageSelector() {
-  const t = getMessages(useLocale())
+  const locale = useLocale()
+  const t = getMessages(locale)
   const { current, setLanguage } = useLanguage()
+  // Show the language this page is in (from its address, e.g. /ar), not only
+  // the saved choice, so an Arabic page never says "English" (issue #55).
+  const shown = isLanguageCode(locale) ? locale : current
 
   return (
     <DropdownMenu>
@@ -35,14 +39,14 @@ function LanguageSelector() {
       >
         <Globe aria-hidden="true" className="size-5 shrink-0" />
         {/* lang= tells screen readers how to pronounce the name */}
-        <span lang={current} className="truncate">
-          {getLanguage(current).nativeName}
+        <span lang={shown} className="truncate">
+          {getLanguage(shown).nativeName}
         </span>
         <ChevronDownIcon aria-hidden="true" className="size-4 shrink-0" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup
-          value={current}
+          value={shown}
           onValueChange={(value) => {
             if (isLanguageCode(value)) setLanguage(value)
           }}

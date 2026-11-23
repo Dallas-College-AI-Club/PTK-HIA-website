@@ -19,7 +19,7 @@ async function Footer() {
 
   return (
     <footer data-slot="footer" className="bg-brand-navy text-white">
-      <div className={cn(pageContainer, "flex flex-col gap-4 py-6 text-center md:gap-5 md:py-9 md:text-left")}>
+      <div className={cn(pageContainer, "flex flex-col gap-4 py-6 text-center md:gap-5 md:py-9 md:text-start")}>
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
           <div className="flex items-center gap-3.5">
             {/* Gold version of the logo, so it shows up on navy. Decorative: the text says who we are. */}

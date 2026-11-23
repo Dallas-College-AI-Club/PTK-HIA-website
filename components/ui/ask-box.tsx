@@ -51,6 +51,8 @@ function AskBox() {
       <div className="flex flex-col gap-2 md:flex-row md:gap-2.5">
         <textarea
           ref={inputRef}
+          // Follows what the visitor types: Arabic right to left, English left to right.
+          dir="auto"
           id={inputId}
           name="q"
           rows={2}
@@ -73,7 +75,7 @@ function AskBox() {
           className="flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-brand-navy px-4 py-1 font-bold text-white hover:bg-brand-navy-dark md:min-h-[54px] md:self-start md:px-6 md:text-[17px]"
         >
           {t.home.askButton}
-          <ArrowRight aria-hidden="true" className="size-5 shrink-0" strokeWidth={2.5} />
+          <ArrowRight aria-hidden="true" className="size-5 shrink-0 rtl:-scale-x-100" strokeWidth={2.5} />
         </button>
       </div>
 
